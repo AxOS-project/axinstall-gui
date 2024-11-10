@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="MiscScreen" parent="AdwBin">
+    <property name="hexpand">true</property>
+    <property name="vexpand">true</property>
+    <child>
+      <object class="GtkBox">
+        <property name="vexpand">true</property>
+        <property name="hexpand">true</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwStatusPage">
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            <property name="title" translatable="true">Miscellaneous</property>
+            <property name="css-classes">axinstall_compact</property>
+            <child>
+              <object class="AdwPreferencesPage">
+                <child>
+                  <object class="AdwPreferencesGroup">
+                    <child>
+                      <object class="AdwEntryRow" id="hostname_entry">
+                        <property
+                          name="title"
+                          translatable="true">Custom Hostname</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBox">
+                        <property name="margin-top">7</property>
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="activatable">false</property>
+                            <property name="selectable">false</property>
+                            <property
+                              name="title"
+                              translatable="true">Install NVIDIA drivers</property>
+                            <property
+                              name="subtitle"
+                              translatable="true">Enable this only if you have a NVidia GPU</property>
+                            <child>
+                              <object class="GtkSwitch" id="nvidia_switch">
+                                <property name="valign">center</property>
+                                <property name="active">false</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

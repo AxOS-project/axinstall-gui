@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Install AxOS
+
+Exec=axinstall
+
+Icon=com.axos-project.axinstall
+
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

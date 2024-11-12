@@ -94,7 +94,7 @@ class InstallPrefs:
             "desktop": self.desktop.lower(),
             "kernel": self.kernel.lower(),
             "timeshift": False,
-            "extra_packages": ["firefox"],
+            "extra_packages": [],
             "flatpak": False,
             "nvidia": False,
             "zramd": False,
@@ -105,6 +105,5 @@ class InstallPrefs:
                 "efidir": "/dev/null",
                 "bootdev": "/dev/null",
             },
-            "kernel": "linux",
         }
         return json.dumps(prefs)

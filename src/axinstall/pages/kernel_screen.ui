@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk" version="4.0"/>
-  <template class="DesktopScreen" parent="AdwBin">
+  <template class="KernelScreen" parent="AdwBin">
     <property name="vexpand">true</property>
     <property name="hexpand">true</property>
     <child>
@@ -11,16 +11,16 @@
         <child>
           <object class="AdwStatusPage"> <property
               name="title"
-              translatable="true">Select Desktop</property> <property
+              translatable="true">Select Kernel</property> <property
               name="description"
-              translatable="true">You can install more desktops later.</property>
-            <property name="css-classes">axinstall_compact_desktop</property>
+              translatable="true">You can change this later.</property>
+            <property name="css-classes">axinstall_compact_kernel</property>
             <child>
               <object class="AdwPreferencesPage">
                 <child>
                   <object class="AdwPreferencesGroup">
                     <child>
-                      <object class="GtkListBox" id="list_desktops">
+                      <object class="GtkListBox" id="list_kernels">
                         <property name="hexpand">true</property>
                         <property name="vexpand">true</property>
                         <style>

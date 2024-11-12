@@ -11,5 +11,6 @@ axinstall_sources = [
     'partition.py',
     'locale.py',
     'selected_locale.py',
+    'kernel.py'
 ]
 install_data(axinstall_sources, install_dir: widgetsdir)

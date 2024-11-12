@@ -37,6 +37,7 @@ class InstallPrefs:
         #zramd_enabled,
         nvidia_enabled,
         desktop,
+        kernel,
         partition_mode,
         partitions,
     ):
@@ -56,6 +57,7 @@ class InstallPrefs:
         #self.zramd_enabled = False
         self.nvidia_enabled = nvidia_enabled
         self.desktop = desktop
+        self.kernel = kernel
         self.partition_mode = partition_mode
         self.partitions = partitions
         self.is_efi = disks.get_uefi()
@@ -90,6 +92,7 @@ class InstallPrefs:
             ],
             "rootpass": self.password,
             "desktop": self.desktop.lower(),
+            "kernel": self.kernel.lower(),
             "timeshift": False,
             "extra_packages": ["firefox"],
             "flatpak": False,

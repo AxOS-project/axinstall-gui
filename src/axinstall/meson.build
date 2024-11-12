@@ -38,7 +38,8 @@ axinstall_sources = [
   'window.py',
   'keymaps.py',
   'desktops.py',
-  'manualpartitioning.py'
+  'manualpartitioning.py',
+  'kernels.py'
 ]
 
 install_data(axinstall_sources, install_dir: moduledir)

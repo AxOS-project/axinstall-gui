@@ -1,0 +1,4 @@
+kernels = [
+    "Linux",
+    "Linux-zen",
+]

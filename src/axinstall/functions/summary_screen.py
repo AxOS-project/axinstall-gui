@@ -25,6 +25,8 @@ from axinstall.classes.axinstall_screen import AxinstallScreen
 from gi.repository import Gtk, Adw
 from gettext import gettext as _
 
+from axinstall.widgets import kernel
+
 
 @Gtk.Template(resource_path="/com/axos-project/axinstall/pages/summary_screen.ui")
 class SummaryScreen(AxinstallScreen, Adw.Bin):
@@ -43,6 +45,8 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
     root_button = Gtk.Template.Child()
     desktop_label = Gtk.Template.Child()
     desktop_button = Gtk.Template.Child()
+    kernel_label = Gtk.Template.Child()
+    kernel_button = Gtk.Template.Child()
     partition_label = Gtk.Template.Child()
     partition_button = Gtk.Template.Child()
     uefi_label = Gtk.Template.Child()
@@ -88,6 +92,9 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
         )
         self.desktop_button.connect(
             "clicked", self.window.show_page, self.window.desktop_screen
+        )
+        self.kernel_button.connect(
+            "clicked", self.window.show_page, self.window.kernel_screen
         )
         self.partition_button.connect(
             "clicked", self.window.show_page, self.window.partition_screen
@@ -136,6 +143,8 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
         )
 
         self.desktop_label.set_title(self.window.desktop_screen.chosen_desktop)
+        
+        self.kernel_label.set_title(self.window.kernel_screen.chosen_kernel)
 
         if self.window.partition_mode == "Manual":
             self.partition_label.set_title("Manual partitioning selected")
@@ -187,6 +196,7 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             #zramd_enabled=self.window.misc_screen.zramd_enabled,
             nvidia_enabled=self.window.misc_screen.nvidia_enabled,
             desktop=self.window.desktop_screen.chosen_desktop,
+            kernel=self.window.kernel_screen.chosen_kernel,
             partition_mode=self.window.partition_mode,
             partitions=partitions,
         )

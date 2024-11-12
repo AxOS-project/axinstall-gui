@@ -13,6 +13,7 @@ axinstall_sources = [
     'summary_screen.py',
     'install_screen.py',
     'finished_screen.py',
-    'welcome_screen.py'
+    'welcome_screen.py',
+    'kernel_screen.py',
 ]
 install_data(axinstall_sources, install_dir: functionsdir)

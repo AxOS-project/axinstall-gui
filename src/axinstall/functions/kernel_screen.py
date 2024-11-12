@@ -1,7 +1,7 @@
-# desktop_screen.py
+# kernel_screen.py
 
 #
-# Copyright 2022 user
+# Copyright 2022 Ardox
 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -22,25 +22,25 @@ from gi.repository import Gtk, Adw
 from axinstall.classes.axinstall_screen import AxinstallScreen
 
 
-@Gtk.Template(resource_path="/com/axos-project/axinstall/pages/desktop_screen.ui")
-class DesktopScreen(AxinstallScreen, Adw.Bin):
-    __gtype_name__ = "DesktopScreen"
+@Gtk.Template(resource_path="/com/axos-project/axinstall/pages/kernel_screen.ui")
+class KernelScreen(AxinstallScreen, Adw.Bin):
+    __gtype_name__ = "KernelScreen"
 
-    list_desktops = Gtk.Template.Child()
+    list_kernels = Gtk.Template.Child()
 
-    chosen_desktop = ""
+    chosen_kernel = ""
     move_to_summary = False
 
     def __init__(self, window, application, **kwargs):
         super().__init__(**kwargs)
         self.window = window
 
-        self.list_desktops.connect("row-selected", self.selected_desktop)
+        self.list_kernels.connect("row-selected", self.selected_kernel)
 
-    def selected_desktop(self, widget, row):
+    def selected_kernel(self, widget, row):
         if row is not None:
             print(row.get_title())
-            self.chosen_desktop = row.get_title()
+            self.chosen_kernel = row.get_title()
             row.select_button.set_active(True)
 
             self.set_valid(True)

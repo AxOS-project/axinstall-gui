@@ -22,6 +22,7 @@ import socket
 from gi.repository import Gtk, Gdk, GLib, Adw
 from axinstall.classes.partition import Partition
 from axinstall.widgets.desktop import DesktopEntry
+from axinstall.widgets.kernel import KernelEntry
 from axinstall.widgets.disk import DiskEntry
 from axinstall.widgets.partition import PartitionEntry
 from axinstall.functions.keyboard_screen import KeyboardScreen
@@ -29,6 +30,7 @@ from axinstall.functions.timezone_screen import TimezoneScreen
 from axinstall.functions.locale_screen import LocaleScreen
 from axinstall.functions.user_screen import UserScreen
 from axinstall.functions.desktop_screen import DesktopScreen
+from axinstall.functions.kernel_screen import KernelScreen
 from axinstall.functions.misc_screen import MiscScreen
 from axinstall.functions.partition_screen import PartitionScreen
 from axinstall.functions.summary_screen import SummaryScreen
@@ -39,6 +41,7 @@ from axinstall.classes.axinstall_screen import AxinstallScreen
 from axinstall.locales.locales_list import locations
 from axinstall.keymaps import keymaps
 from axinstall.desktops import desktops
+from axinstall.kernels import kernels
 from axinstall.utils import disks
 from axinstall.utils.threading import RunAsync
 
@@ -73,6 +76,9 @@ class AxinstallWindow(Gtk.ApplicationWindow):
         self.desktop_screen = DesktopScreen(
             window=self, set_valid=self.page_valid, **kwargs
         )
+        self.kernel_screen = KernelScreen(
+            window=self, set_valid=self.page_valid, **kwargs
+        )
         self.user_screen = UserScreen(window=self, set_valid=self.page_valid, **kwargs)
         self.keyboard_screen = KeyboardScreen(
             window=self, set_valid=self.page_valid, keymaps=keymaps, **kwargs
@@ -100,6 +106,7 @@ class AxinstallWindow(Gtk.ApplicationWindow):
         self.carousel.append(self.locale_screen)
         self.carousel.append(self.user_screen)
         self.carousel.append(self.desktop_screen)
+        self.carousel.append(self.kernel_screen)
         self.carousel.append(self.misc_screen)
         self.carousel.append(self.partition_screen)
         # self.carousel.append(self.manual_partition)
@@ -132,6 +139,27 @@ class AxinstallWindow(Gtk.ApplicationWindow):
                         window=self,
                         desktop=desktop,
                         button_group=firstdesktop.select_button,
+                        **kwargs
+                    )
+                )
+        ### ---------
+        
+        ### Test kernels
+        firstkernel = KernelEntry(
+            window=self, kernel=kernels[0], button_group=None, **kwargs
+        )
+        self.kernel_screen.list_kernels.append(firstkernel)
+        self.kernel_screen.chosen_kernel = (
+            self.kernel_screen.list_kernels.get_row_at_index(0).get_title()
+        )
+        self.kernel_screen.list_kernels.select_row(firstkernel)
+        for kernel in kernels:
+            if kernel != kernels[0]:
+                self.kernel_screen.list_kernels.append(
+                    KernelEntry(
+                        window=self,
+                        kernel=kernel,
+                        button_group=firstkernel.select_button,
                         **kwargs
                     )
                 )

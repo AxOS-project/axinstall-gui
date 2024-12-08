@@ -21,10 +21,10 @@
     <file>pages/misc_screen.ui</file>
     <file>pages/partition_screen.ui</file>
     <file>pages/summary_screen.ui</file>
-	<file>pages/timezone/timezone_screen.ui</file>
+	  <file>pages/timezone/timezone_screen.ui</file>
     <file>pages/user_screen.ui</file>
     <file>pages/welcome_screen.ui</file>
-	<file>pages/timezone/timezone_dialog.ui</file>
+	  <file>pages/timezone/timezone_dialog.ui</file>
     <file>pages/locale/locale_dialog.ui</file>
     <file>pages/locale/locale_screen.ui</file>
     <file>gtk/help-overlay.ui</file>

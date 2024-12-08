@@ -79,7 +79,7 @@ class FinishedScreen(AxinstallScreen, Adw.Bin):
         self.set_valid(True)
 
     def reboot(self, widget):
-        CommandUtils.run_command(["gnome-session-quit", "--reboot"])
+        CommandUtils.run_command(["systemctl", "reboot"])
 
     def output(self, widget):
         with open("/tmp/axinstall-output.txt", "r") as f:

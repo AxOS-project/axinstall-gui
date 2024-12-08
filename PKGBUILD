@@ -1,10 +1,10 @@
 pkgname=axinstall
-pkgver=0.2.5
+pkgver=0.2.6
 pkgrel=1
 pkgdesc="AxOS installer"
 arch=('x86_64')
 license=('GPL')
-depends=('python' 'python-gobject' 'gtk4' 'libadwaita' 'python-cairo' 'openssl' 'python-pytz' 'gparted' 'vte4' 'meson' 'ninja' 'libadwaita' 'desktop-file-utils' 'appstream-glib' 'python-urllib3' 'python-tzlocal' 'python-requests' 'gtksourceview5' 'python-regex')
+depends=('python' 'python-gobject' 'gtk4' 'libadwaita' 'python-cairo' 'openssl' 'python-pytz' 'gparted' 'vte4' 'meson' 'ninja' 'libadwaita' 'desktop-file-utils' 'appstream-glib' 'python-urllib3' 'python-tzlocal' 'python-requests' 'gtksourceview5' 'python-regex' 'axinstall-cli')
 # sha256sums=('SKIP') 
 
 build() {

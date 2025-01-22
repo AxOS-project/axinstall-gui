@@ -24,6 +24,7 @@ from axinstall.utils.gtk_helpers import set_list_text
 from gi.repository import Gtk, Adw
 from gettext import gettext as _
 from axinstall.utils.command import CommandUtils
+import os
 
 
 @Gtk.Template(resource_path="/com/axos-project/axinstall/pages/keyboard/keyboard_screen.ui")
@@ -103,26 +104,44 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
         self.set_valid(True)
 
     def set_xkbmap(self, layout, variant=None):
-        if variant is None or variant == "normal":
-            CommandUtils.run_command(
-                [
-                    "gsettings",
-                    "set",
-                    "org.gnome.desktop.input-sources",
-                    "sources",
-                    "[('xkb', '{}')]".format(layout),
-                ]
-            )
-        else:
-            CommandUtils.run_command(
-                [
-                    "gsettings",
-                    "set",
-                    "org.gnome.desktop.input-sources",
-                    "sources",
-                    "[('xkb', '{}+{}')]".format(layout, variant),
-                ]
-            )
+        
+        is_wayland = os.environ.get("WAYLAND_DISPLAY") is not None
+
+        if is_wayland:
+            if variant is None or variant == "normal":
+                CommandUtils.run_command(
+                    [
+                        "localectl",
+                        "set-keymap",
+                        layout,
+                    ]
+                )
+            else:
+                CommandUtils.run_command(
+                    [
+                        "localectl",
+                        "set-keymap",
+                        "{}+{}".format(layout, variant),
+                    ]
+                )
+        else:  # for Xorg
+            if variant is None or variant == "normal":
+                CommandUtils.run_command(
+                    [
+                        "setxkbmap",
+                        layout,
+                    ]
+                )
+            else:
+                CommandUtils.run_command(
+                    [
+                        "setxkbmap",
+                        layout,
+                        "-variant",
+                        variant,
+                    ]
+                )
+
 
     def present_dialog(self, *_):
         self.search_dialog.present()

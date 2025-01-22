@@ -11,7 +11,7 @@
         <child>
           <object class="AdwStatusPage"> 
           <property name="title" translatable="true">Select Desktop</property>
-          <property name="description" translatable="true">Note that the Hyprland desktop is still unstable.</property>
+          <property name="description" translatable="true">Note that the Calla desktop isn't maintained by AxOS.</property>
             <property name="css-classes">axinstall_compact_desktop</property>
             <child>
               <object class="AdwPreferencesPage">

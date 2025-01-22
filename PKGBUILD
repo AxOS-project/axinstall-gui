@@ -9,7 +9,7 @@ depends=('python' 'python-gobject' 'gtk4' 'libadwaita' 'python-cairo' 'openssl' 
 
 build() {
   cd "${srcdir}"
-  meson --prefix=/usr _build
+  meson --prefix=/usr _build --reconfigure
   ninja -C _build
 }
 

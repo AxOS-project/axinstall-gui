@@ -1,7 +1,7 @@
 # timezone_screen.py
 
 #
-# Copyright 2022 user
+# Copyright 2025 Ardox
 
 #
 # This program is free software: you can redistribute it and/or modify

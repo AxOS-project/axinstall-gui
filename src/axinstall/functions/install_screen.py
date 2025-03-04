@@ -1,7 +1,7 @@
 # installer_Screen.py
 
 #
-# Copyright 2022 user
+# Copyright 2025 Ardox
 
 #
 # This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,8 @@ class InstallScreen(AxinstallScreen, Adw.Bin):
 
         prefs = self.window.summary_screen.installprefs.generate_json()
 
-        self.vte_instance.spawn_async(
+        try:
+            self.vte_instance.spawn_async(
             Vte.PtyFlags.DEFAULT,
             ".",  # working directory
             ["bash", "/usr/share/axinstall/axinstall/scripts/install.sh"],
@@ -64,7 +65,17 @@ class InstallScreen(AxinstallScreen, Adw.Bin):
             -1,
             None,
             None,
-        )
-
+            )
+        except Exception as e:
+            print(f"Installation failed: {str(e)}")
+            dialog = Gtk.MessageDialog(
+                transient_for=self.window,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text=f"Installation failed: {str(e)}"
+            )
+            dialog.connect("response", lambda dialog, response: dialog.destroy())
+            dialog.show()
+            
     def on_vte_child_exited(self, *args):
         self.set_valid(True)

@@ -77,5 +77,16 @@ class InstallScreen(AxinstallScreen, Adw.Bin):
             dialog.connect("response", lambda dialog, response: dialog.destroy())
             dialog.show()
             
-    def on_vte_child_exited(self, *args):
-        self.set_valid(True)
+    def on_vte_child_exited(self, terminal, exit_status):
+        if exit_status != 0:
+            print(f"Installation failed with exit status {exit_status}")
+            dialog = Gtk.MessageDialog(
+                transient_for=self.window,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text=f"Installation failed with exit status {exit_status}"
+            )
+            dialog.connect("response", lambda dialog, response: dialog.destroy())
+            dialog.show()
+        else:
+            self.set_valid(True)

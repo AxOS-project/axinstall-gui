@@ -21,9 +21,7 @@
                   <object class="AdwPreferencesGroup">
                     <child>
                       <object class="AdwEntryRow" id="hostname_entry">
-                        <property
-                          name="title"
-                          translatable="true">Custom Hostname</property>
+                        <property name="title" translatable="true">Custom Hostname</property>
                       </object>
                     </child>
                     <child>
@@ -36,14 +34,52 @@
                           <object class="AdwActionRow">
                             <property name="activatable">false</property>
                             <property name="selectable">false</property>
-                            <property
-                              name="title"
-                              translatable="true">Install NVIDIA drivers</property>
-                            <property
-                              name="subtitle"
-                              translatable="true">Enable this only if you have a NVidia GPU</property>
+                            <property name="title" translatable="true">Install NVIDIA drivers</property>
+                            <property name="subtitle" translatable="true">Enable this only if you have a NVidia GPU</property>
                             <child>
                               <object class="GtkSwitch" id="nvidia_switch">
+                                <property name="valign">center</property>
+                                <property name="active">false</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="activatable">false</property>
+                            <property name="selectable">false</property>
+                            <property name="title" translatable="true">Install artist user kit</property>
+                            <property name="subtitle" translatable="true">Enable to install apps for artists</property>
+                            <child>
+                              <object class="GtkSwitch" id="artist_uk_switch">
+                                <property name="valign">center</property>
+                                <property name="active">false</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="activatable">false</property>
+                            <property name="selectable">false</property>
+                            <property name="title" translatable="true">Install developer user kit</property>
+                            <property name="subtitle" translatable="true">Enable to install development apps</property>
+                            <child>
+                              <object class="GtkSwitch" id="devel_uk_switch">
+                                <property name="valign">center</property>
+                                <property name="active">false</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="activatable">false</property>
+                            <property name="selectable">false</property>
+                            <property name="title" translatable="true">Install hacker package kit</property>
+                            <property name="subtitle" translatable="true">Enable to install pentesting tools</property>
+                            <child>
+                              <object class="GtkSwitch" id="hacker_uk_switch">
                                 <property name="valign">center</property>
                                 <property name="active">false</property>
                               </object>

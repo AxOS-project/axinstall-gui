@@ -1,5 +1,5 @@
 desktops = [
-    "Plasma",
-    "Calla",
     "Sleex",
+    "Calla",
+    "Plasma",
 ]

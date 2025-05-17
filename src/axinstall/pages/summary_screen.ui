@@ -247,23 +247,54 @@
                 </child>
                 <child>
                   <object class="AdwPreferencesGroup">
-                    <property
-                      name="title"
-                      translatable="true">Miscellaneous Settings</property>
+                    <property name="title" translatable="true">Miscellaneous Settings</property>
                     <child>
                       <object class="GtkListBox" id="misc_listbox">
                         <property name="selection-mode">none</property>
                         <child>
                           <object class="AdwActionRow" id="nvidia_label">
-                            <property
-                              name="title"
-                              translatable="true">Install Nvidia drivers</property>
+                            <property name="title" translatable="true">Install Nvidia drivers</property>
                             <child>
                               <object class="GtkButton" id="nvidia_button">
                                 <property name="valign">center</property>
                                 <property name="halign">center</property>
-                                <property
-                                  name="icon-name">document-edit-symbolic</property>
+                                <property name="icon-name">document-edit-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="artist_uk_label">
+                            <property name="title" translatable="true">Install artist user kit</property>
+                            <child>
+                              <object class="GtkButton" id="artist_uk_button">
+                                <property name="valign">center</property>
+                                <property name="halign">center</property>
+                                <property name="icon-name">document-edit-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="devel_uk_label">
+                            <property name="title" translatable="true">Install development package kit</property>
+                            <child>
+                              <object class="GtkButton" id="devel_uk_button">
+                                <property name="valign">center</property>
+                                <property name="halign">center</property>
+                                <property name="icon-name">document-edit-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="hacker_uk_label">
+                            <property name="title" translatable="true">Install pentesting package kit</property>
+                            <child>
+                              <object class="GtkButton" id="hacker_uk_button">
+                                <property name="valign">center</property>
+                                <property name="halign">center</property>
+                                <property name="icon-name">document-edit-symbolic</property>
                               </object>
                             </child>
                           </object>

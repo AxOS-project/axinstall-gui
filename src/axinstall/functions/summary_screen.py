@@ -50,12 +50,15 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
     partition_label = Gtk.Template.Child()
     partition_button = Gtk.Template.Child()
     uefi_label = Gtk.Template.Child()
-    # timeshift_label = Gtk.Template.Child()
-    # timeshift_button = Gtk.Template.Child()
-    # zramd_label = Gtk.Template.Child()
-    # zramd_button = Gtk.Template.Child()
     nvidia_label = Gtk.Template.Child()
     nvidia_button = Gtk.Template.Child()
+    artist_uk_label = Gtk.Template.Child()
+    artist_uk_button = Gtk.Template.Child()
+    devel_uk_label = Gtk.Template.Child()
+    devel_uk_button = Gtk.Template.Child()
+    hacker_uk_label = Gtk.Template.Child()
+    hacker_uk_button = Gtk.Template.Child()
+
     added_locales = []
     # unakite_label = Gtk.Template.Child()
 
@@ -99,13 +102,16 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
         self.partition_button.connect(
             "clicked", self.window.show_page, self.window.partition_screen
         )
-        #self.timeshift_button.connect(
-        #    "clicked", self.window.show_page, self.window.misc_screen
-        #)
-        #self.zramd_button.connect(
-        #    "clicked", self.window.show_page, self.window.misc_screen
-        #)
         self.nvidia_button.connect(
+            "clicked", self.window.show_page, self.window.misc_screen
+        )
+        self.artist_uk_button.connect(
+            "clicked", self.window.show_page, self.window.misc_screen
+        )
+        self.devel_uk_button.connect(
+            "clicked", self.window.show_page, self.window.misc_screen
+        )
+        self.hacker_uk_button.connect(
             "clicked", self.window.show_page, self.window.misc_screen
         )
 
@@ -158,21 +164,25 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             )
         self.uefi_label.set_title("UEFI" if disks.get_uefi() else "Legacy BIOS")
 
-        #self.timeshift_label.set_title(
-        #    "timeshift enabled"
-        #    if self.window.misc_screen.timeshift_enabled
-        #    else "timeshift disabled"
-        #)
-        #self.zramd_label.set_title(
-        #    "zramd enabled"
-        #    if self.window.misc_screen.zramd_enabled
-        #    else "zramd disabled"
-        #)
-        # self.unakite_label.set_title("Unakite enabled "+"enabled" if self.window.misc_screen.)
         self.nvidia_label.set_title(
             "Nvidia drivers enabled"
             if self.window.misc_screen.nvidia_enabled
             else "Nvidia drivers disabled"
+        )
+        self.artist_uk_label.set_title(
+            "Artist user kit enabled"
+            if self.window.misc_screen.artist_uk_enabled
+            else "Artist user kit disabled"
+        )
+        self.devel_uk_label.set_title(
+            "Developer user kit enabled"
+            if self.window.misc_screen.devel_uk_enabled
+            else "Developer user kit disabled"
+        )
+        self.hacker_uk_label.set_title(
+            "Hacker user kit enabled"
+            if self.window.misc_screen.hacker_uk_enabled
+            else "Hacker user kit disabled"
         )
 
         partitions = []
@@ -192,9 +202,10 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             enable_sudo=self.window.user_screen.sudo_enabled,
             disk=self.window.partition_screen.selected_partition,
             hostname=self.window.misc_screen.hostname,
-            #timeshift_enabled=self.window.misc_screen.timeshift_enabled,
-            #zramd_enabled=self.window.misc_screen.zramd_enabled,
             nvidia_enabled=self.window.misc_screen.nvidia_enabled,
+            artist_uk_enabled=self.window.misc_screen.artist_uk_enabled,
+            devel_uk_enabled=self.window.misc_screen.devel_uk_enabled,
+            hacker_uk_enabled=self.window.misc_screen.hacker_uk_enabled,
             desktop=self.window.desktop_screen.chosen_desktop,
             kernel=self.window.kernel_screen.chosen_kernel,
             partition_mode=self.window.partition_mode,

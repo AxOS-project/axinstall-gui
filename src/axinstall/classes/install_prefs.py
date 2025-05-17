@@ -33,9 +33,10 @@ class InstallPrefs:
         enable_sudo,
         disk,
         hostname,
-        #timeshift_enabled,
-        #zramd_enabled,
         nvidia_enabled,
+        artist_uk_enabled,
+        devel_uk_enabled,
+        hacker_uk_enabled,
         desktop,
         kernel,
         partition_mode,
@@ -53,9 +54,10 @@ class InstallPrefs:
         else:
             self.disk = ""
         self.hostname = hostname if len(hostname) != 0 else "axos"
-        #self.timeshift_enabled = False
-        #self.zramd_enabled = False
         self.nvidia_enabled = nvidia_enabled
+        self.artist_uk_enabled = artist_uk_enabled
+        self.devel_uk_enabled = devel_uk_enabled
+        self.hacker_uk_enabled = hacker_uk_enabled
         self.desktop = desktop
         self.kernel = kernel
         self.partition_mode = partition_mode
@@ -93,17 +95,10 @@ class InstallPrefs:
             "rootpass": self.password,
             "desktop": self.desktop.lower(),
             "kernel": self.kernel.lower(),
-            "timeshift": False,
             "extra_packages": [],
-            "flatpak": False,
             "nvidia": False,
-            "zramd": False,
-            "unakite": {
-                "enable": False,
-                "root": "/dev/null",
-                "oldroot": self.disk,
-                "efidir": "/dev/null",
-                "bootdev": "/dev/null",
-            },
+            "artist_uk": False,
+            "devel_uk": False,
+            "hacker_uk": False,
         }
         return json.dumps(prefs)

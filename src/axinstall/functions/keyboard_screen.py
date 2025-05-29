@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from axinstall.classes import keymap
 from axinstall.locales.locales_list import locations
 from axinstall.widgets.layout import KeyboardLayout
 from axinstall.classes.axinstall_screen import AxinstallScreen
@@ -106,41 +107,52 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
     def set_xkbmap(self, layout, variant=None):
         
         is_wayland = os.environ.get("WAYLAND_DISPLAY") is not None
+        is_sleex = os.environ.get("XDG_CURRENT_DESKTOP") == "Sleex"
 
-        if is_wayland:
-            if variant is None or variant == "normal":
-                CommandUtils.run_command(
-                    [
-                        "localectl",
-                        "set-keymap",
-                        layout,
-                    ]
-                )
-            else:
-                CommandUtils.run_command(
-                    [
-                        "localectl",
-                        "set-keymap",
-                        "{}+{}".format(layout, variant),
-                    ]
-                )
-        else:  # for Xorg
-            if variant is None or variant == "normal":
-                CommandUtils.run_command(
-                    [
-                        "setxkbmap",
-                        layout,
-                    ]
-                )
-            else:
-                CommandUtils.run_command(
-                    [
-                        "setxkbmap",
-                        layout,
-                        "-variant",
-                        variant,
-                    ]
-                )
+        if is_sleex:
+            CommandUtils.run_command(
+                [
+                    "hyprctl",
+                    "keyword",
+                    "input:kb_layout",
+                    layout,
+                ]
+            )
+        else: # The fact that this part doesn't even works because the user needs to relogin...
+            if is_wayland:
+                if variant is None or variant == "normal":
+                    CommandUtils.run_command(
+                        [
+                            "localectl",
+                            "set-keymap",
+                            layout,
+                        ]
+                    )
+                else:
+                    CommandUtils.run_command(
+                        [
+                            "localectl",
+                            "set-keymap",
+                            "{}+{}".format(layout, variant),
+                        ]
+                    )
+            else:  # for Xorg
+                if variant is None or variant == "normal":
+                    CommandUtils.run_command(
+                        [
+                            "setxkbmap",
+                            layout,
+                        ]
+                    )
+                else:
+                    CommandUtils.run_command(
+                        [
+                            "setxkbmap",
+                            layout,
+                            "-variant",
+                            variant,
+                        ]
+                    )
 
 
     def present_dialog(self, *_):

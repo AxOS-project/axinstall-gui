@@ -96,9 +96,9 @@ class InstallPrefs:
             "desktop": self.desktop.lower(),
             "kernel": self.kernel.lower(),
             "extra_packages": [],
-            "nvidia": False,
-            "artist_uk": False,
-            "devel_uk": False,
-            "hacker_uk": False,
+            "nvidia": self.nvidia_enabled,
+            "artist_uk": self.artist_uk_enabled,
+            "devel_uk": self.devel_uk_enabled,
+            "hacker_uk": self.hacker_uk_enabled,
         }
         return json.dumps(prefs)

@@ -2,7 +2,6 @@
 
 #
 # Copyright 2025 Ardox
-
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,8 +19,6 @@
 from gi.repository import Gtk, Adw
 from gettext import gettext as _
 
-from psutil import swap_memory
-from regex import F, T
 from axinstall.classes.axinstall_screen import AxinstallScreen
 
 
@@ -30,9 +27,6 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     __gtype_name__ = "MiscScreen"
 
     hostname_entry = Gtk.Template.Child()
-    #ipv_switch = Gtk.Template.Child()
-    #timeshift_switch = Gtk.Template.Child()
-    #zramd_switch = Gtk.Template.Child()
     swap_entry = Gtk.Template.Child()
     nvidia_switch = Gtk.Template.Child()
     artist_uk_switch = Gtk.Template.Child()
@@ -50,6 +44,10 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     hacker_uk_enabled = False
     office_uk_enabled = False
     entertainment_uk_enabled = False
+    swap_filled = True
+
+    MIN_SWAP_MB = 256
+    MAX_SWAP_MB = 32768
 
     def __init__(self, window, application, **kwargs):
         super().__init__(**kwargs)
@@ -57,30 +55,44 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
 
         self.set_valid(True)
 
+        self.swap_entry.connect("insert-text", self.on_swap_insert_text)
+        self.swap_entry.connect("changed", self.on_swap_changed)
+
+    def on_swap_insert_text(self, entry, text, length, position):
+        if not text.isdigit():
+            entry.stop_emission("insert-text")
+
+    def on_swap_changed(self, entry):
+        text = entry.get_text()
+
+        if text == "":
+            # Empty means swap = 0 (valid)
+            entry.remove_css_class("error")
+            self.swap_filled = True
+            self.swap_value = 0
+        elif text.isdigit():
+            value = int(text)
+            if self.MIN_SWAP_MB <= value <= self.MAX_SWAP_MB:
+                entry.remove_css_class("error")
+                self.swap_filled = True
+                self.swap_value = value
+            else:
+                entry.add_css_class("error")
+                self.swap_filled = False
+        else:
+            entry.add_css_class("error")
+            self.swap_filled = False
+
+        self.verify_continue()
+
     def on_complete(self, *_):
-        self.hostname = self.hostname_entry.get_text()      
-        self.swap_value = self.swap_entry.get_text()
-        self.swap_entry.connect("changed", self.check_swap_value)
+        self.hostname = self.hostname_entry.get_text()
         self.nvidia_enabled = self.nvidia_switch.get_state()
         self.artist_uk_enabled = self.artist_uk_switch.get_state()
         self.devel_uk_enabled = self.devel_uk_switch.get_state()
         self.hacker_uk_enabled = self.hacker_uk_switch.get_state()
         self.office_uk_enabled = self.office_uk_switch.get_state()
         self.entertainment_uk_enabled = self.entertainment_uk_switch.get_state()
-        
-    def check_swap_value(self):
-        input = self.swap_entry.get_text()
-        if not input:
-            self.swap_value = "0"
-            self.swap_filled = True
-            self.swap_entry.remove_css_class("error")
-        else:            
-            if not input.isdigit() or int(input) < 8000:
-                print("Bad entry: must be a INT and < 8G")
-                self.swap_entry.add_css_class("error")
-                self.swap_filled = False
-            else:
-                print("Valid entry")
-                self.swap_entry.remove_css_class("error")
-                self.swap_filled = True
-                self.swap_value = input
+
+    def verify_continue(self):
+        self.set_valid(self.swap_filled)

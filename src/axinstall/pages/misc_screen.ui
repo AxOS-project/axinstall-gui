@@ -101,7 +101,6 @@
                           </object>
                         </child>
                         <child>
-                        <child>
                           <object class="AdwActionRow">
                             <property name="activatable">false</property>
                             <property name="selectable">false</property>
@@ -116,6 +115,10 @@
                           </object>
                         </child>
                         <child>
+                          <object class="AdwEntryRow" id="swap_entry">
+                            <property name="title" translatable="true">Swap size (MiB). Default = 0</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

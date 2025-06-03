@@ -17,6 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
+from psutil import swap_memory
 from axinstall.utils import disks
 import json
 
@@ -33,6 +34,7 @@ class InstallPrefs:
         enable_sudo,
         disk,
         hostname,
+        swap_value,
         nvidia_enabled,
         artist_uk_enabled,
         devel_uk_enabled,
@@ -56,6 +58,7 @@ class InstallPrefs:
         else:
             self.disk = ""
         self.hostname = hostname if len(hostname) != 0 else "axos"
+        self.swap_value = swap_value if len(swap_value) != 0 else 0
         self.nvidia_enabled = nvidia_enabled
         self.artist_uk_enabled = artist_uk_enabled
         self.devel_uk_enabled = devel_uk_enabled
@@ -88,6 +91,7 @@ class InstallPrefs:
                 "timezone": self.timezone.region + "/" + self.timezone.location,
             },
             "networking": {"hostname": self.hostname, "ipv6": False},
+            "swap": self.swap_value,
             "users": [
                 {
                     "name": self.username,

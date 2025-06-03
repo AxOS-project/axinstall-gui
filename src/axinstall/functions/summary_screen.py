@@ -53,6 +53,8 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
     uefi_label = Gtk.Template.Child()
     nvidia_label = Gtk.Template.Child()
     nvidia_button = Gtk.Template.Child()
+    swap_label = Gtk.Template.Child()
+    swap_button = Gtk.Template.Child()
     artist_uk_label = Gtk.Template.Child()
     artist_uk_button = Gtk.Template.Child()
     devel_uk_label = Gtk.Template.Child()
@@ -91,6 +93,9 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
         )
         self.username_button.connect(
             "clicked", self.window.show_page, self.window.user_screen
+        )
+        self.swap_button.connect(
+            "clicked", self.window.show_page, self.window.misc_screen
         )
         self.sudo_button.connect(
             "clicked", self.window.show_page, self.window.user_screen
@@ -223,11 +228,12 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             enable_sudo=self.window.user_screen.sudo_enabled,
             disk=self.window.partition_screen.selected_partition,
             hostname=self.window.misc_screen.hostname,
+            swap_value=self.window.misc_screen.swap_value,
             nvidia_enabled=self.window.misc_screen.nvidia_enabled,
             artist_uk_enabled=self.window.misc_screen.artist_uk_enabled,
             devel_uk_enabled=self.window.misc_screen.devel_uk_enabled,
             hacker_uk_enabled=self.window.misc_screen.hacker_uk_enabled,
-            office_uk_enabled=self.window.misc_screen.office_uk.enabled,
+            office_uk_enabled=self.window.misc_screen.office_uk_enabled,
             entertainment_uk_enabled=self.window.misc_screen.entertainment_uk_enabled,
             desktop=self.window.desktop_screen.chosen_desktop,
             kernel=self.window.kernel_screen.chosen_kernel,

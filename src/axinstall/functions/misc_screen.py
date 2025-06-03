@@ -20,7 +20,8 @@
 from gi.repository import Gtk, Adw
 from gettext import gettext as _
 
-from regex import F
+from psutil import swap_memory
+from regex import F, T
 from axinstall.classes.axinstall_screen import AxinstallScreen
 
 
@@ -32,6 +33,7 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     #ipv_switch = Gtk.Template.Child()
     #timeshift_switch = Gtk.Template.Child()
     #zramd_switch = Gtk.Template.Child()
+    swap_entry = Gtk.Template.Child()
     nvidia_switch = Gtk.Template.Child()
     artist_uk_switch = Gtk.Template.Child()
     devel_uk_switch = Gtk.Template.Child()
@@ -40,16 +42,14 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     entertainment_uk_switch = Gtk.Template.Child()
 
     hostname = "axos"
-    #ipv_enabled = False
-    #zramd_enabled = False
-    #timeshift_enabled = False
+    swap_value = 0
     move_to_summary = False
     nvidia_enabled = False
     artist_uk_enabled = False
     devel_uk_enabled = False
     hacker_uk_enabled = False
-    office_uk_switch = False
-    entertainment_uk_switch = False
+    office_uk_enabled = False
+    entertainment_uk_enabled = False
 
     def __init__(self, window, application, **kwargs):
         super().__init__(**kwargs)
@@ -58,13 +58,29 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
         self.set_valid(True)
 
     def on_complete(self, *_):
-        self.hostname = self.hostname_entry.get_text()
-        #self.ipv_enabled = self.ipv_switch.get_state()
-        #self.zramd_enabled = self.zramd_switch.get_state()
-        #self.timeshift_enabled = self.timeshift_switch.get_state()
+        self.hostname = self.hostname_entry.get_text()      
+        self.swap_value = self.swap_entry.get_text()
+        self.swap_entry.connect("changed", self.check_swap_value)
         self.nvidia_enabled = self.nvidia_switch.get_state()
         self.artist_uk_enabled = self.artist_uk_switch.get_state()
         self.devel_uk_enabled = self.devel_uk_switch.get_state()
         self.hacker_uk_enabled = self.hacker_uk_switch.get_state()
         self.office_uk_enabled = self.office_uk_switch.get_state()
         self.entertainment_uk_enabled = self.entertainment_uk_switch.get_state()
+        
+    def check_swap_value(self):
+        input = self.swap_entry.get_text()
+        if not input:
+            self.swap_value = "0"
+            self.swap_filled = True
+            self.swap_entry.remove_css_class("error")
+        else:            
+            if not input.isdigit() or int(input) < 8000:
+                print("Bad entry: must be a INT and < 8G")
+                self.swap_entry.add_css_class("error")
+                self.swap_filled = False
+            else:
+                print("Valid entry")
+                self.swap_entry.remove_css_class("error")
+                self.swap_filled = True
+                self.swap_value = input

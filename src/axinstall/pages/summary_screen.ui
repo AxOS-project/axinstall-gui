@@ -299,6 +299,30 @@
                             </child>
                           </object>
                         </child>
+                        <child>
+                          <object class="AdwActionRow" id="office_uk_label">
+                            <property name="title" translatable="true">Install Office user kit</property>
+                            <child>
+                              <object class="GtkButton" id="office_uk_button">
+                                <property name="valign">center</property>
+                                <property name="halign">center</property>
+                                <property name="icon-name">document-edit-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow" id="entertainment_uk_label">
+                            <property name="title" translatable="true">Install entertainment user kit</property>
+                            <child>
+                              <object class="GtkButton" id="entertainment_uk_button">
+                                <property name="valign">center</property>
+                                <property name="halign">center</property>
+                                <property name="icon-name">document-edit-symbolic</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                         <style>
                           <class name="boxed-list"/>
                         </style>

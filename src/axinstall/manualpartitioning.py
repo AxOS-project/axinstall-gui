@@ -10,7 +10,7 @@ filesystems = [
     "ext2",
     "ext4",
     "minix",
-    "vfat",
+    "fat32",
     "f2fs",
 ]
 

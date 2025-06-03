@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from ast import Gt
 import os
 from axinstall.utils import disks
 from axinstall.classes.install_prefs import InstallPrefs
@@ -58,6 +59,10 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
     devel_uk_button = Gtk.Template.Child()
     hacker_uk_label = Gtk.Template.Child()
     hacker_uk_button = Gtk.Template.Child()
+    office_uk_label = Gtk.Template.Child()
+    office_uk_button = Gtk.Template.Child()
+    entertainment_uk_label = Gtk.Template.Child()
+    entertainment_uk_button = Gtk.Template.Child()
 
     added_locales = []
     # unakite_label = Gtk.Template.Child()
@@ -112,6 +117,12 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             "clicked", self.window.show_page, self.window.misc_screen
         )
         self.hacker_uk_button.connect(
+            "clicked", self.window.show_page, self.window.misc_screen
+        )
+        self.office_uk_button.connect(
+            "clicked", self.window.show_page, self.window.misc_screen
+        )
+        self.entertainment_uk_button.connect(
             "clicked", self.window.show_page, self.window.misc_screen
         )
 
@@ -184,6 +195,16 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             if self.window.misc_screen.hacker_uk_enabled
             else "Hacker user kit disabled"
         )
+        self.office_uk_label.set_title(
+            "Office user kit enabled"
+            if self.window.misc_screen.office_uk_enabled
+            else "Office user kit disabled"
+        )
+        self.entertainment_uk_label.set_title(
+            "Entertainment user kit enabled"
+            if self.window.misc_screen.entertainment_uk_enabled
+            else "Entertainment user kit disabled"
+        )
 
         partitions = []
         for i in range(0, len(self.window.available_partitions)):
@@ -206,6 +227,8 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             artist_uk_enabled=self.window.misc_screen.artist_uk_enabled,
             devel_uk_enabled=self.window.misc_screen.devel_uk_enabled,
             hacker_uk_enabled=self.window.misc_screen.hacker_uk_enabled,
+            office_uk_enabled=self.window.misc_screen.office_uk.enabled,
+            entertainment_uk_enabled=self.window.misc_screen.entertainment_uk_enabled,
             desktop=self.window.desktop_screen.chosen_desktop,
             kernel=self.window.kernel_screen.chosen_kernel,
             partition_mode=self.window.partition_mode,

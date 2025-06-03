@@ -36,6 +36,8 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     artist_uk_switch = Gtk.Template.Child()
     devel_uk_switch = Gtk.Template.Child()
     hacker_uk_switch = Gtk.Template.Child()
+    office_uk_switch = Gtk.Template.Child()
+    entertainment_uk_switch = Gtk.Template.Child()
 
     hostname = "axos"
     #ipv_enabled = False
@@ -46,6 +48,8 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     artist_uk_enabled = False
     devel_uk_enabled = False
     hacker_uk_enabled = False
+    office_uk_switch = False
+    entertainment_uk_switch = False
 
     def __init__(self, window, application, **kwargs):
         super().__init__(**kwargs)
@@ -62,3 +66,5 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
         self.artist_uk_enabled = self.artist_uk_switch.get_state()
         self.devel_uk_enabled = self.devel_uk_switch.get_state()
         self.hacker_uk_enabled = self.hacker_uk_switch.get_state()
+        self.office_uk_enabled = self.office_uk_switch.get_state()
+        self.entertainment_uk_enabled = self.entertainment_uk_switch.get_state()

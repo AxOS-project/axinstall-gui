@@ -37,6 +37,8 @@ class InstallPrefs:
         artist_uk_enabled,
         devel_uk_enabled,
         hacker_uk_enabled,
+        office_uk_enabled,
+        entertainment_uk_enabled,
         desktop,
         kernel,
         partition_mode,
@@ -58,6 +60,8 @@ class InstallPrefs:
         self.artist_uk_enabled = artist_uk_enabled
         self.devel_uk_enabled = devel_uk_enabled
         self.hacker_uk_enabled = hacker_uk_enabled
+        self.office_uk_enabled = office_uk_enabled
+        self.entertainment_uk_enabled = entertainment_uk_enabled
         self.desktop = desktop
         self.kernel = kernel
         self.partition_mode = partition_mode
@@ -100,5 +104,7 @@ class InstallPrefs:
             "artist_uk": self.artist_uk_enabled,
             "devel_uk": self.devel_uk_enabled,
             "hacker_uk": self.hacker_uk_enabled,
+            "office_uk": self.office_uk_enabled,
+            "entertainment_uk": self.entertainment_uk_enabled,
         }
         return json.dumps(prefs)

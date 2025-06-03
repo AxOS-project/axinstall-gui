@@ -135,8 +135,8 @@ msgid "Automatic Partitioning"
 msgstr "Автоматичне розділення"
 
 #: src/pages/partition_screen.ui:50
-msgid "Open GParted"
-msgstr "Відкрити GParted"
+msgid "Open Disk utility"
+msgstr "Відкрити Disk utility"
 
 #: src/pages/partition_screen.ui:55
 msgid "Open terminal"

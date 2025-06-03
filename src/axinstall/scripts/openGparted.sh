@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-pkexec gparted
+pkexec gnome-disks

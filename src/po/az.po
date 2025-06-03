@@ -134,7 +134,7 @@ msgid "Automatic Partitioning"
 msgstr ""
 
 #: src/pages/partition_screen.ui:50
-msgid "Open GParted"
+msgid "Open Disk utility"
 msgstr ""
 
 #: src/pages/partition_screen.ui:55

@@ -139,12 +139,12 @@ msgid "Automatic Partitioning"
 msgstr "Автоматическое Разделение"
 
 #: src/pages/partition_screen.ui:50
-msgid "Open GParted"
-msgstr "Открыть GParted"
+msgid "Open Disk utility"
+msgstr "Открыть Disk utility"
 
 #: src/pages/partition_screen.ui:55
 msgid "Open terminal"
-msgstr "Открыть GParted"
+msgstr "Открыть Disk utility"
 
 #: src/pages/partition_screen.ui:68
 msgid "Available partitions"

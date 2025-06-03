@@ -60,7 +60,7 @@
                                   <object class="GtkButton" id="open_gparted">
                                     <property
                                       name="label"
-                                      translatable="true">Open GParted</property>
+                                      translatable="true">Open Disk utility</property>
                                   </object>
                                 </child>
                                 <child>

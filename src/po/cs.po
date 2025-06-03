@@ -135,8 +135,8 @@ msgid "Automatic Partitioning"
 msgstr "Automatické rozdělení disku"
 
 #: src/pages/partition_screen.ui:50
-msgid "Open GParted"
-msgstr "Otevřít GParted"
+msgid "Open Disk utility"
+msgstr "Otevřít Disk utility"
 
 #: src/pages/partition_screen.ui:55
 msgid "Open terminal"

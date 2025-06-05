@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+set -euo pipefail
+
 echo "Running reflector to sort for fastest mirrors" | tee -a /tmp/axinstall-output.txt
 pkexec reflector --latest 5 --sort rate --save /etc/pacman.d/mirrorlist | tee -a /tmp/axinstall-output.txt
 echo "Initializing pacman keyring" | tee -a /tmp/axinstall-output.txt

@@ -110,6 +110,6 @@ class InstallPrefs:
             "hacker_uk": self.hacker_uk_enabled,
             "office_uk": self.office_uk_enabled,
             "entertainment_uk": self.entertainment_uk_enabled,
-            "flatpak": "false",
+            "flatpak": False,
         }
         return json.dumps(prefs)

@@ -56,7 +56,7 @@ class PartitionScreen(AxinstallScreen, Adw.Bin):
         self.open_gparted.connect("clicked", self.gparted)
 
     def gparted(self, widget):
-        CommandUtils.run_command(["pkexec", "gnome-disks"])
+        CommandUtils.run_command(["sudo", "-E", "gparted"])
 
     def bash(self, widget):
         CommandUtils.run_command(["kgx", "-e", "/usr/bin/bash"])

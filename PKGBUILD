@@ -1,6 +1,6 @@
 pkgname=axinstall
-pkgver=1.6
-pkgrel=2
+pkgver=1.7
+pkgrel=1
 pkgdesc="AxOS installer"
 arch=('x86_64')
 license=('GPL')

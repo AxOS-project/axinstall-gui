@@ -1,17 +1,46 @@
 #!/usr/bin/bash
 set -uo pipefail
 
+log() {
+    local level="$1"; shift
+    local color reset
+    case "$level" in
+        INFO)  color='\e[36m' ;;
+        WARN)  color='\e[33m' ;;
+        ERROR) color='\e[31m' ;;
+        *)     color='\e[0m'  ;;
+    esac
+    reset='\e[0m'
+    message="[$level] $*"
+
+    # printing to term
+    echo -e "${color}${message}${reset}"
+
+    # printing to logfile
+    echo "$message" >> "$logfile"
+}
+
+run() {
+    "$@" | tee -a "$logfile"
+    local status=${PIPESTATUS[0]}
+    if [ $status -ne 0 ]; then
+        log ERROR "Command failed: $*"
+        exit $status
+    fi
+}
+
 logfile="/tmp/axinstall-output.txt"
-echo "Running reflector to sort for fastest mirrors" | tee -a "$logfile"
+log INFO "Running reflector to sort for fastest mirrors"
+# not using run here because "warn" wont be reached
 if ! pkexec reflector --latest 5 --sort rate --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
-    echo "Warning: Reflector failed, continuing with default mirrors" | tee -a "$logfile"
+    log WARN "Reflector failed, continuing with default mirrors"
 fi
 
 set -e # Now we can exit because now we are moving to critical stuff
 
-echo "Initializing pacman keyring" | tee -a "$logfile"
-pkexec pacman-key --init | tee -a "$logfile"
-pkexec pacman-key --populate archlinux | tee -a "$logfile"
+log INFO "Initializing pacman keyring"
+run pkexec pacman-key --init
+run pkexec pacman-key --populate archlinux
 
-echo "Starting installation" | tee -a "$logfile"
-pkexec axinstall-cli config ~/.config/axinstall.json | tee -a "$logfile"
+log INFO "Starting installation"
+run pkexec axinstall-cli config ~/.config/axinstall.json

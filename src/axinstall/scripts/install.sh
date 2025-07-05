@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 set -uo pipefail
 
+logfile="/tmp/axinstall-output.txt"
+
 log() {
     local level="$1"; shift
     local color reset
@@ -29,7 +31,6 @@ run() {
     fi
 }
 
-logfile="/tmp/axinstall-output.txt"
 log INFO "Running reflector to sort for fastest mirrors"
 # not using run here because "warn" wont be reached
 if ! pkexec reflector --latest 5 --sort rate --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then

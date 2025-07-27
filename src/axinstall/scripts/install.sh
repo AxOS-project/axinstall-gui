@@ -33,7 +33,7 @@ run() {
 
 log INFO "Running reflector to sort for fastest mirrors"
 # not using run here because "warn" wont be reached
-if ! pkexec reflector --latest 15 --sort rate --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
+if ! pkexec reflector --latest 10 --protocol https --sort rate --fastest 5 --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
     log WARN "Reflector failed, continuing with default mirrors"
 fi
 

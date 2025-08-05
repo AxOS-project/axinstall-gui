@@ -59,7 +59,7 @@ class PartitionScreen(AxinstallScreen, Adw.Bin):
         CommandUtils.run_command(["sudo", "-E", "gparted"])
 
     def bash(self, widget):
-        CommandUtils.run_command(["kgx", "-e", "/usr/bin/bash"])
+        CommandUtils.run_command(["foot"])
 
     def check_partitions(self, widget):
         self.partition_list.select_all()

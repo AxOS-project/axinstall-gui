@@ -33,15 +33,15 @@ run() {
 
 log INFO "Running reflector to sort for fastest mirrors"
 
-if ! pkexec sudo reflector --protocol https --latest 30 --age 12 --fastest 15 --sort rate --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
+if ! sudo reflector --protocol https --latest 30 --age 12 --fastest 15 --sort rate --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
     log WARN "Reflector failed, continuing with default mirrors"
 fi
 
 set -e # Now we can exit because now we are moving to critical stuff
 
 log INFO "Initializing pacman keyring"
-run pkexec pacman-key --init
-run pkexec pacman-key --populate archlinux
+run sudo pacman-key --init
+run sudo pacman-key --populate archlinux
 
 log INFO "Starting installation"
-run pkexec axinstall-cli config ~/.config/axinstall.json
+run sudo axinstall-cli config ~/.config/axinstall.json

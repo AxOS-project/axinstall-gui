@@ -35,7 +35,7 @@ log INFO "Running reflector to sort for fastest mirrors"
 
 mirror_region=$(jq -r '.mirrors.region' ~/.config/axinstall.json)
 
-if ! sudo reflector --protocol https --country "$mirror_region," --latest 5 --download-timeout 40 --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
+if ! sudo reflector --protocol https --latest 20 --sort rate --fastest 10 --download-timeout 300 --save /etc/pacman.d/mirrorlist | tee -a "$logfile"; then
     log WARN "Reflector failed, continuing with default mirrors"
 fi
 

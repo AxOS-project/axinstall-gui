@@ -216,7 +216,8 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             partition = self.window.partition_screen.partition_list.get_row_at_index(
                 i
             ).partition
-            partitions.append(partition.generate_axinstall_entry())
+            if partition.mountpoint and partition.mountpoint != "none":
+                partitions.append(partition.generate_axinstall_entry())
 
         self.installprefs = InstallPrefs(
             timezone=self.window.timezone_screen.chosen_timezone,

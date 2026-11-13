@@ -57,7 +57,7 @@ class UserScreen(AxinstallScreen, Adw.Bin):
     def username_passes_regex(self, widget):
         input = self.username_entry.get_text()
         print(input)
-        if not re.search("^[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$", input):
+        if not re.search(r"^[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$", input):
             print("Invalid username!")
             self.username_entry.add_css_class("error")
             self.username_filled = False
@@ -99,7 +99,6 @@ class UserScreen(AxinstallScreen, Adw.Bin):
             self.password_filled = True
             self.verify_continue()
             self.password_confirmation.remove_css_class("error")
-            self.password = self.encrypt_password(self.password_entry.get_text())
             self.password = (
                 "'" + self.encrypt_password(self.password_entry.get_text()) + "'"
             )

@@ -49,10 +49,10 @@ class PartitionEntry(Adw.ActionRow):
     def on_filesystem_select(self, widget):
         print(self.filesystem_dropdown.get_active_text())
         self.partition.filesystem = self.filesystem_dropdown.get_active_text()
-        self.window.partition_screen.set_valid(True)
+        self.window.partition_screen.validate_manual_partitions()
         print("select " + self.partition.generate_axinstall_entry())
 
     def on_mountpoint_select(self, widget):
         self.partition.mountpoint = self.mountpoint_dropdown.get_active_text()
-        self.window.partition_screen.set_valid(True)
+        self.window.partition_screen.validate_manual_partitions()
         print("select " + self.partition.generate_axinstall_entry())

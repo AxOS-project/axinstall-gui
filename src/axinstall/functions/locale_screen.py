@@ -82,9 +82,12 @@ class LocaleScreen(AxinstallScreen, Adw.Bin):
 
         self._locale_list_length = 1
         try:
-            self.chosen_locales = [self.window.timezone_screen.chosen_timezone.locale]
-        except:
-            self.chosen_locales = ["en_US.UTF-8 UTF-U"]
+            if self.window.timezone_screen.chosen_timezone is not None:
+                self.chosen_locales = [self.window.timezone_screen.chosen_timezone.locale]
+            else:
+                self.chosen_locales = ["en_US.UTF-8 UTF-8"]
+        except Exception:
+            self.chosen_locales = ["en_US.UTF-8 UTF-8"]
 
         en_US = LocaleEntry(
             page=self,
@@ -141,7 +144,13 @@ class LocaleScreen(AxinstallScreen, Adw.Bin):
             self.update_selected_locale_list(add=row.locale, row=locale)
 
     def update_locale_preview(self):
-        locale.setlocale(locale.LC_ALL, self.chosen_locales[0][:-6])
+        try:
+            locale.setlocale(locale.LC_ALL, self.chosen_locales[0][:-6])
+        except locale.Error:
+            try:
+                locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
+            except locale.Error:
+                locale.setlocale(locale.LC_ALL, "C")
         self.datespreview.set_label(time.strftime(locale.nl_langinfo(locale.D_T_FMT)))
         self.numberpreview.set_label(locale.format_string("%.2f", 1234567.89, grouping=True)+"  -  "+locale.currency(1234.56, grouping=True))
 
@@ -180,7 +189,10 @@ class LocaleScreen(AxinstallScreen, Adw.Bin):
         self.locale_list.set_filter_func(self.filter_locales, terms)
 
     def on_show(self):
-        self.chosen_locales = [self.window.timezone_screen.chosen_timezone.locale]
+        if self.window.timezone_screen.chosen_timezone is not None:
+            self.chosen_locales = [self.window.timezone_screen.chosen_timezone.locale]
+        elif not self.chosen_locales:
+            self.chosen_locales = ["en_US.UTF-8 UTF-8"]
         set_list_text(self.main_locale_list, self.chosen_locales[0])
         self.update_locale_preview()
         if self.chosen_locales != []:

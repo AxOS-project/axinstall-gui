@@ -95,9 +95,26 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                 if tz == str(row):
                     self.update_from_row(row)
                     self.chosen_timezone = row
+                    self.set_valid(True)
 
                 self.timezone_list.append(row)
                 self._timezone_list_length += 1
+
+        if self.chosen_timezone is None:
+            self.timezone_search_by_name("Europe", "London")
+
+    def timezone_search_by_name(self, region, location):
+        for i in range(self._timezone_list_length):
+            row = self.timezone_list.get_row_at_index(i)
+            if row is not None and row.region == region and row.location == location:
+                self.chosen_timezone = row
+                self.update_from_row(row)
+                self.set_valid(True)
+                break
+
+    def on_show(self):
+        if self.chosen_timezone is not None:
+            self.set_valid(True)
 
     def present_dialog(self, *_):
         self.search_dialog.present()

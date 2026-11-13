@@ -4,12 +4,12 @@ indian = [
     locale(
         region="Indian",
         location="Antananarivo",
-        locales="fr_MG.UTF-8 UTF-8",
+        locales="mg_MG.UTF-8 UTF-8",
     ),
     locale(
         region="Indian",
         location="Chagos",
-        locales="en_IO.UTF-8 UTF-8",
+        locales="en_US.UTF-8 UTF-8",
     ),
     locale(
         region="Indian",

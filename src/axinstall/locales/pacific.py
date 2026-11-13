@@ -4,7 +4,7 @@ pacific = [
     locale(
         region="Pacific",
         location="Apia",
-        locales="en_WS.UTF-8 UTF-8",
+        locales="sm_WS.UTF-8 UTF-8",
     ),
     locale(
         region="Pacific",

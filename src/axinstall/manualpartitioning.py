@@ -1,17 +1,13 @@
 filesystems = [
-    "don't format",
-    "bfs",
-    "cramfs",
-    "ext3",
-    "fat",
-    "msdos",
-    "xfs",
-    "btrfs",
-    "ext2",
     "ext4",
-    "minix",
+    "btrfs",
+    "xfs",
     "fat32",
+    "ntfs",
     "f2fs",
+    "ext3",
+    "ext2",
+    "don't format",
 ]
 
 mountpoints = [

@@ -71,7 +71,7 @@ class PartitionScreen(AxinstallScreen, Adw.Bin):
         for partition in self.available_partitions:
             self.partition_list.append(
                 PartitionEntry(
-                    window=self,
+                    window=self.window,
                     partition=Partition(
                         partition=partition,
                         mountpoint="",
@@ -81,18 +81,39 @@ class PartitionScreen(AxinstallScreen, Adw.Bin):
                     application=None,
                 )
             )
+        if self.window.partition_mode == "Manual":
+            self.validate_manual_partitions()
+
+    def validate_manual_partitions(self):
+        has_root = False
+        has_efi = not disks.get_uefi()
+        for i in range(0, len(self.window.available_partitions)):
+            row = self.partition_list.get_row_at_index(i)
+            if row is not None and hasattr(row, "partition"):
+                mp = row.partition.mountpoint
+                if mp == "/":
+                    has_root = True
+                elif mp == "/boot/efi":
+                    has_efi = True
+        self.set_valid(has_root and has_efi)
 
     def switch_automatic_partitioning(self, widget):
         self.automatic_partitioning_page.set_visible(True)
         self.manual_partitioning_page.set_visible(False)
-        self.set_valid(False)
         self.window.partition_mode = "Auto"
+        self.set_valid(self.selected_partition is not None)
 
     def switch_manual_partitioning(self, widget):
         self.automatic_partitioning_page.set_visible(False)
         self.manual_partitioning_page.set_visible(True)
-        self.set_valid(True)
         self.window.partition_mode = "Manual"
+        self.validate_manual_partitions()
+
+    def on_show(self):
+        if self.window.partition_mode == "Manual":
+            self.validate_manual_partitions()
+        else:
+            self.set_valid(self.selected_partition is not None)
 
     def row_selected(self, widget, row):
         if row is not None:

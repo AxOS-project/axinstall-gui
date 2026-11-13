@@ -4,6 +4,6 @@ arctic = [
     locale(
         region="Arctic",
         location="Longyearbyen",
-        locales="no_NO.UTF-8 UTF-8",
+        locales="nb_NO.UTF-8 UTF-8",
     )
 ]

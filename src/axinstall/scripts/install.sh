@@ -49,12 +49,7 @@ fi
 
 # Let's fix pacman's impatience while we're at it
 log INFO "Tuning pacman for high-latency connections"
-sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
-
-# This adds a 60s timeout to XferCommand because the default is too 'quit-heavy'
-if ! grep -q "XferCommand" /etc/pacman.conf; then
-    echo 'XferCommand = /usr/bin/curl -L -C - -f -s %u -o %o --connect-timeout 60 --retry 3' | sudo tee -a /etc/pacman.conf
-fi
+sudo sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 10/' /etc/pacman.conf
 
 set -e # Now we can exit because now we are moving to critical stuff
 

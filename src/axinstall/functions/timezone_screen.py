@@ -55,6 +55,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
     move_to_summary = False
     guessed_timezone = None
     guessed_country = None
+    guessed_country_code = None
     _is_guessing = False
 
     def __init__(self, window, locations, set_valid, application, **kwargs):
@@ -85,6 +86,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
         #
         # ˄˄ real
         self._timezone_list_length = 0
+        self.timezone_rows = []
 
         for i in locations:
             for locale in i:
@@ -103,10 +105,13 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                     self.set_valid(True)
 
                 self.timezone_list.append(row)
+                self.timezone_rows.append(row)
                 self._timezone_list_length += 1
 
         if self.chosen_timezone is None:
             self.timezone_search_by_name("Europe", "London")
+
+        RunAsync(self.ip_request_timezone)
 
     def timezone_search_by_name(self, region, location):
         for i in range(self._timezone_list_length):
@@ -140,7 +145,6 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
         CommandUtils.run_command(
             [
                 "sudo",
-                "-E",
                 "timedatectl",
                 "set-timezone",
                 tz_name,
@@ -176,6 +180,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
         try:
             tz_str = None
             country_str = None
+            country_code = None
 
             for _attempt in range(3):
                 try:
@@ -184,6 +189,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                     if data.get("status") == "success" and data.get("timezone"):
                         tz_str = data["timezone"]
                         country_str = data.get("country")
+                        country_code = data.get("countryCode")
                         break
                 except Exception:
                     pass
@@ -194,6 +200,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                     if data.get("success", True) and data.get("timezone", {}).get("id"):
                         tz_str = data["timezone"]["id"]
                         country_str = data.get("country")
+                        country_code = data.get("country_code")
                         break
                 except Exception:
                     pass
@@ -205,29 +212,46 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
 
             self.guessed_timezone = tz_str
             self.guessed_country = country_str
+            self.guessed_country_code = country_code
 
             region, location = self.guessed_timezone.split("/", 1)
 
-            for i in range(self._timezone_list_length):
-                row = self.timezone_list.get_row_at_index(i)
-                if row is not None and row.region == region and row.location == location:
-                    self.chosen_timezone = row
-                    self.set_timezone(row.region, row.location)
-
-                    def apply_guessed_tz(r=row):
-                        self.chosen_timezone = r
-                        self.set_valid(True)
-                        self.update_from_row(r)
-                        self.status_page.set_description(
-                            f"Automatically detected {r.location}."
-                        )
-                        return False
-
-                    GLib.idle_add(apply_guessed_tz)
-
-                    print(f'Guessed timezone as "{self.guessed_timezone}"!')
-                    print(f'{self.guessed_country} will be used for mirrors.')
+            matched_row = None
+            for row in self.timezone_rows:
+                if row.region == region and row.location == location:
+                    matched_row = row
                     break
+
+            if matched_row is None and country_code:
+                cc_upper = f"_{country_code.upper()}."
+                for row in self.timezone_rows:
+                    if row.region == region and cc_upper in row.locale:
+                        matched_row = row
+                        break
+
+            if matched_row is not None:
+                self.chosen_timezone = matched_row
+                self.set_timezone(matched_row.region, matched_row.location)
+
+                def apply_guessed_tz(r=matched_row):
+                    self.chosen_timezone = r
+                    self.set_valid(True)
+                    self.update_from_row(r)
+                    self.status_page.set_description(
+                        f"Automatically detected {r.location}."
+                    )
+                    if hasattr(self.window, "keyboard_screen"):
+                        self.window.keyboard_screen.apply_guessed_country(
+                            self.guessed_country, self.guessed_country_code
+                        )
+                    if hasattr(self.window, "locale_screen"):
+                        self.window.locale_screen.apply_guessed_locale(r.locale)
+                    return False
+
+                GLib.idle_add(apply_guessed_tz)
+
+                print(f'Guessed timezone as "{self.guessed_timezone}"!')
+                print(f'{self.guessed_country} will be used for mirrors.')
         except Exception as e:
             print("Failed to detect IP timezone!", e)
         finally:

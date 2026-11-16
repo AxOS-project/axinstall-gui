@@ -26,9 +26,6 @@ from axinstall.widgets.variant import KeyboardVariant
 class KeyboardLayout(Adw.ExpanderRow):
     __gtype_name__ = "KeyboardLayout"
 
-    variants = []
-    rows = []
-
     def __init__(
         self, window, country, country_shorthand, keymap, application, **kwargs
     ):
@@ -36,6 +33,8 @@ class KeyboardLayout(Adw.ExpanderRow):
         self.window = window
         self.country = country
         self.country_shorthand = country_shorthand
+        self.variants = []
+        self.rows = []
 
         self.set_title(country)
         self.set_subtitle(country_shorthand)

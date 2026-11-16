@@ -188,15 +188,13 @@ class LocaleScreen(AxinstallScreen, Adw.Bin):
         terms = self.locale_entry_search.get_text()
         self.locale_list.set_filter_func(self.filter_locales, terms)
 
-    def on_show(self):
-        if self.window.timezone_screen.chosen_timezone is not None:
-            tz_locale = self.window.timezone_screen.chosen_timezone.locale
-            if self.chosen_locales:
-                self.chosen_locales[0] = tz_locale
-            else:
-                self.chosen_locales = [tz_locale]
-        elif not self.chosen_locales:
-            self.chosen_locales = ["en_US.UTF-8 UTF-8"]
+    def apply_guessed_locale(self, tz_locale: str):
+        if not tz_locale:
+            return
+        if self.chosen_locales:
+            self.chosen_locales[0] = tz_locale
+        else:
+            self.chosen_locales = [tz_locale]
 
         for i in range(self._locale_list_length):
             row = self.locale_list.get_row_at_index(i)
@@ -206,8 +204,13 @@ class LocaleScreen(AxinstallScreen, Adw.Bin):
 
         set_list_text(self.main_locale_list, self.chosen_locales[0])
         self.update_locale_preview()
-        if self.chosen_locales != []:
-            self.set_valid(True)
+        self.set_valid(True)
+
+    def on_show(self):
+        if self.window.timezone_screen.chosen_timezone is not None:
+            self.apply_guessed_locale(self.window.timezone_screen.chosen_timezone.locale)
+        elif not self.chosen_locales:
+            self.apply_guessed_locale("en_US.UTF-8 UTF-8")
 
     @staticmethod
     def filter_locales(row, terms=None):

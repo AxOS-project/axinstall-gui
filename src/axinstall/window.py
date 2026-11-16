@@ -220,7 +220,7 @@ class AxinstallWindow(Gtk.ApplicationWindow):
             self.timezone_screen.ip_request_timezone()
 
     def _get_current_page(self, offset=0) -> AxinstallScreen:
-        current_index = self.carousel.get_position()
+        current_index = round(self.carousel.get_position())
         return self.carousel.get_nth_page(current_index + offset)
 
     def on_page_change(self, page: AxinstallScreen):

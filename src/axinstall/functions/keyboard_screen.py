@@ -151,19 +151,8 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
         is_sleex = os.environ.get("XDG_CURRENT_DESKTOP") == "Sleex"
 
         if is_sleex:
-            CommandUtils.run_command(
-                ["hyprctl", "keyword", "input:kb_layout", layout]
-            )
-            CommandUtils.run_command(
-                [
-                    "sudo",
-                    "-n",
-                    "sh",
-                    "-c",
-                    f"printf 'FONT=eurlatgr\\nKEYMAP={layout}\\n' > /etc/vconsole.conf && hyprctl reload",
-                ]
-            )
-
+            CommandUtils.run_command(["sudo", "-n", "sh", "-c", f"printf 'FONT=eurlatgr\\nKEYMAP={layout}\\n' > /etc/vconsole.conf && hyprctl reload",])
+            CommandUtils.run_command(["hyprctl", "reload"])
 
     def present_dialog(self, *_):
         self.search_dialog.present()

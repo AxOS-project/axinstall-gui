@@ -110,7 +110,7 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
         is_sleex = os.environ.get("XDG_CURRENT_DESKTOP") == "Sleex"
 
         if is_sleex:
-            CommandUtils.run_command(["sudo", "-E", "sed", "-i", f"s/KEYMAP=.*/KEYMAP={layout}/", "/etc/vconsole.conf",])
+            CommandUtils.run_command(["sudo", "-E", "echo 'KEYMAP={layout}' >> /etc/vconsole.conf",])
             CommandUtils.run_command(["hyprctl", "reload",])
 
 

@@ -110,49 +110,8 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
         is_sleex = os.environ.get("XDG_CURRENT_DESKTOP") == "Sleex"
 
         if is_sleex:
-            CommandUtils.run_command(
-                [
-                    "hyprctl",
-                    "keyword",
-                    "input:kb_layout",
-                    layout,
-                ]
-            )
-        else: # The fact that this part doesn't even works because the user needs to relogin...
-            if is_wayland:
-                if variant is None or variant == "normal":
-                    CommandUtils.run_command(
-                        [
-                            "localectl",
-                            "set-keymap",
-                            layout,
-                        ]
-                    )
-                else:
-                    CommandUtils.run_command(
-                        [
-                            "localectl",
-                            "set-keymap",
-                            "{}+{}".format(layout, variant),
-                        ]
-                    )
-            else:  # for Xorg
-                if variant is None or variant == "normal":
-                    CommandUtils.run_command(
-                        [
-                            "setxkbmap",
-                            layout,
-                        ]
-                    )
-                else:
-                    CommandUtils.run_command(
-                        [
-                            "setxkbmap",
-                            layout,
-                            "-variant",
-                            variant,
-                        ]
-                    )
+            CommandUtils.run_command([ "sed", "-i", f"s/KEYMAP=.*/KEYMAP={layout}/", "/etc/vconsole.conf",])
+            CommandUtils.run_command(["hyprctl", "reload",])
 
 
     def present_dialog(self, *_):

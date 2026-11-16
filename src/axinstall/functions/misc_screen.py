@@ -29,11 +29,6 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     hostname_entry = Gtk.Template.Child()
     swap_entry = Gtk.Template.Child()
     nvidia_switch = Gtk.Template.Child()
-    artist_uk_switch = Gtk.Template.Child()
-    devel_uk_switch = Gtk.Template.Child()
-    hacker_uk_switch = Gtk.Template.Child()
-    office_uk_switch = Gtk.Template.Child()
-    entertainment_uk_switch = Gtk.Template.Child()
 
     hostname = "axos"
     swap_value = 0
@@ -88,11 +83,6 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     def on_complete(self, *_):
         self.hostname = self.hostname_entry.get_text()
         self.nvidia_enabled = self.nvidia_switch.get_state()
-        self.artist_uk_enabled = self.artist_uk_switch.get_state()
-        self.devel_uk_enabled = self.devel_uk_switch.get_state()
-        self.hacker_uk_enabled = self.hacker_uk_switch.get_state()
-        self.office_uk_enabled = self.office_uk_switch.get_state()
-        self.entertainment_uk_enabled = self.entertainment_uk_switch.get_state()
 
     def verify_continue(self):
         self.set_valid(self.swap_filled)

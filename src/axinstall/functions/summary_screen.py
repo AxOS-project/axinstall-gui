@@ -55,16 +55,6 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
     nvidia_button = Gtk.Template.Child()
     swap_label = Gtk.Template.Child()
     swap_button = Gtk.Template.Child()
-    artist_uk_label = Gtk.Template.Child()
-    artist_uk_button = Gtk.Template.Child()
-    devel_uk_label = Gtk.Template.Child()
-    devel_uk_button = Gtk.Template.Child()
-    hacker_uk_label = Gtk.Template.Child()
-    hacker_uk_button = Gtk.Template.Child()
-    office_uk_label = Gtk.Template.Child()
-    office_uk_button = Gtk.Template.Child()
-    entertainment_uk_label = Gtk.Template.Child()
-    entertainment_uk_button = Gtk.Template.Child()
 
     added_locales = []
     # unakite_label = Gtk.Template.Child()
@@ -113,21 +103,6 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             "clicked", self.window.show_page, self.window.partition_screen
         )
         self.nvidia_button.connect(
-            "clicked", self.window.show_page, self.window.misc_screen
-        )
-        self.artist_uk_button.connect(
-            "clicked", self.window.show_page, self.window.misc_screen
-        )
-        self.devel_uk_button.connect(
-            "clicked", self.window.show_page, self.window.misc_screen
-        )
-        self.hacker_uk_button.connect(
-            "clicked", self.window.show_page, self.window.misc_screen
-        )
-        self.office_uk_button.connect(
-            "clicked", self.window.show_page, self.window.misc_screen
-        )
-        self.entertainment_uk_button.connect(
             "clicked", self.window.show_page, self.window.misc_screen
         )
 

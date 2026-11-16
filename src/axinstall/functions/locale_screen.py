@@ -190,9 +190,20 @@ class LocaleScreen(AxinstallScreen, Adw.Bin):
 
     def on_show(self):
         if self.window.timezone_screen.chosen_timezone is not None:
-            self.chosen_locales = [self.window.timezone_screen.chosen_timezone.locale]
+            tz_locale = self.window.timezone_screen.chosen_timezone.locale
+            if self.chosen_locales:
+                self.chosen_locales[0] = tz_locale
+            else:
+                self.chosen_locales = [tz_locale]
         elif not self.chosen_locales:
             self.chosen_locales = ["en_US.UTF-8 UTF-8"]
+
+        for i in range(self._locale_list_length):
+            row = self.locale_list.get_row_at_index(i)
+            if row is not None and row.locale == self.chosen_locales[0]:
+                row.main_locale_button.set_active(True)
+                break
+
         set_list_text(self.main_locale_list, self.chosen_locales[0])
         self.update_locale_preview()
         if self.chosen_locales != []:

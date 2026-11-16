@@ -406,8 +406,7 @@ class NetworkScreen(AxinstallScreen, Adw.Bin):
                     _("Connected to the internet. Ready to continue!")
                 )
             self.set_valid(True)
-            if not self._timezone_requested:
-                self._timezone_requested = True
+            if self.window.timezone_screen.guessed_timezone is None:
                 RunAsync(self.window.online)
         elif is_connected_any:
             self.status_page.set_description(

@@ -18,12 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+import os
+import time
 from gi.repository import Gtk, GLib, Adw
 from gettext import gettext as _
 import requests
 from axinstall.classes.axinstall_screen import AxinstallScreen
 from axinstall.widgets.timezone import TimezoneEntry
 from axinstall.utils.gtk_helpers import set_list_text
+from axinstall.utils.command import CommandUtils
+from axinstall.utils.threading import RunAsync
 
 from datetime import datetime, timedelta
 from pytz import timezone
@@ -51,6 +55,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
     move_to_summary = False
     guessed_timezone = None
     guessed_country = None
+    _is_guessing = False
 
     def __init__(self, window, locations, set_valid, application, **kwargs):
         super().__init__(set_valid=set_valid, **kwargs)
@@ -113,16 +118,43 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                 break
 
     def on_show(self):
+        if self.guessed_timezone is None and not self._is_guessing:
+            RunAsync(self.ip_request_timezone)
         if self.chosen_timezone is not None:
+            self.update_from_row(self.chosen_timezone)
             self.set_valid(True)
+
+    def on_complete(self, *_):
+        if self.chosen_timezone is not None:
+            self.set_timezone(
+                self.chosen_timezone.region, self.chosen_timezone.location
+            )
+
+    def set_timezone(self, region, location):
+        tz_name = f"{region}/{location}"
+        os.environ["TZ"] = tz_name
+        try:
+            time.tzset()
+        except AttributeError:
+            pass
+        CommandUtils.run_command(
+            [
+                "sudo",
+                "-E",
+                "timedatectl",
+                "set-timezone",
+                tz_name,
+            ]
+        )
 
     def present_dialog(self, *_):
         self.search_dialog.present()
 
     def update_from_row(self, row):
+        if row is None:
+            return
         set_list_text(self.location_preview_list, row.location)
         set_list_text(self.region_preview_list, row.region)
-
 
         tz = row.get_timezone()
 
@@ -136,26 +168,60 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
         self.preview_row.set_subtitle(tz_now.strftime("%a %-d %B %Y"))
 
     def ip_request_timezone(self):
+        if self._is_guessing or self.guessed_timezone is not None:
+            return
+        self._is_guessing = True
         print("guessing your timezone")
 
         try:
-            r = requests.get("http://ip-api.com/json")
-            self.guessed_timezone = r.json()["timezone"]
-            self.guessed_country = r.json()["country"]
+            tz_str = None
+            country_str = None
 
-            split = self.guessed_timezone.split("/")
+            for _attempt in range(3):
+                try:
+                    r = requests.get("http://ip-api.com/json", timeout=5)
+                    data = r.json()
+                    if data.get("status") == "success" and data.get("timezone"):
+                        tz_str = data["timezone"]
+                        country_str = data.get("country")
+                        break
+                except Exception:
+                    pass
+
+                try:
+                    r = requests.get("https://ipwho.is/", timeout=5)
+                    data = r.json()
+                    if data.get("success", True) and data.get("timezone", {}).get("id"):
+                        tz_str = data["timezone"]["id"]
+                        country_str = data.get("country")
+                        break
+                except Exception:
+                    pass
+
+                time.sleep(1)
+
+            if not tz_str or "/" not in tz_str:
+                return
+
+            self.guessed_timezone = tz_str
+            self.guessed_country = country_str
+
+            region, location = self.guessed_timezone.split("/", 1)
 
             for i in range(self._timezone_list_length):
                 row = self.timezone_list.get_row_at_index(i)
-                if row.region == split[0] and row.location == split[1]:
+                if row is not None and row.region == region and row.location == location:
                     self.chosen_timezone = row
+                    self.set_timezone(row.region, row.location)
 
                     def apply_guessed_tz(r=row):
+                        self.chosen_timezone = r
                         self.set_valid(True)
                         self.update_from_row(r)
                         self.status_page.set_description(
                             f"Automatically detected {r.location}."
                         )
+                        return False
 
                     GLib.idle_add(apply_guessed_tz)
 
@@ -164,17 +230,18 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                     break
         except Exception as e:
             print("Failed to detect IP timezone!", e)
+        finally:
+            self._is_guessing = False
 
     def select_timezone(self, widget, row):
         self.search_dialog.hide()
 
-        self.status_page.set_description("")
-        self.update_from_row(row)
-
-        if row is not None or row is not self.timezone_search:
+        if row is not None and row is not self.timezone_search:
             print(row.get_title())
             self.chosen_timezone = row
-
+            self.status_page.set_description("")
+            self.update_from_row(row)
+            self.set_timezone(row.region, row.location)
             self.set_valid(True)
         else:
             print("row is none!!")

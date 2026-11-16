@@ -49,5 +49,9 @@ class KeyboardVariant(Adw.ActionRow):
         self.select_variant.connect("toggled", self.selected)
 
     def selected(self, widget):
-        if widget.get_active():
+        if (
+            widget.get_active()
+            and hasattr(self.window, "keyboard_screen")
+            and not self.window.keyboard_screen._updating_variant
+        ):
             self.window.keyboard_screen.select_variant(self, user_action=True)

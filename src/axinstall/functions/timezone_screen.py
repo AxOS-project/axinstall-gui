@@ -145,6 +145,7 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
         CommandUtils.run_command(
             [
                 "sudo",
+                "-n",
                 "timedatectl",
                 "set-timezone",
                 tz_name,

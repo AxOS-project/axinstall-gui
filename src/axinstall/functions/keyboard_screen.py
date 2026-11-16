@@ -26,7 +26,6 @@ from gi.repository import Gtk, Adw
 from gettext import gettext as _
 from axinstall.utils.command import CommandUtils
 import os
-import subprocess
 
 
 @Gtk.Template(resource_path="/com/axos-project/axinstall/pages/keyboard/keyboard_screen.ui")
@@ -69,8 +68,8 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
         self.select_variant_button.connect("clicked", self.confirm_selection)
 
         self.user_selected = False
+        self._updating_variant = False
         self.layouts = []
-        first_button_group = None
 
         for keymap in keymaps:
             layout = KeyboardLayout(
@@ -85,14 +84,10 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
             self.layouts.append(layout)
 
             for row in layout.rows:
-                if first_button_group is None:
-                    first_button_group = row.select_variant
-                else:
-                    row.select_variant.set_group(first_button_group)
-
                 if row.country_shorthand == "us" and row.variant == "normal":
                     self.variant = row
                     self.select_variant(row, user_action=False)
+                    break
 
     def confirm_selection(self, *_):
         self.search_dialog.hide()
@@ -123,10 +118,20 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
     def select_variant(self, variant, *_args, user_action=False):
         if user_action:
             self.user_selected = True
-        self.variant = variant
+        self._updating_variant = True
+        try:
+            if (
+                self.variant is not None
+                and hasattr(self.variant, "select_variant")
+                and self.variant != variant
+            ):
+                self.variant.select_variant.set_active(False)
+            self.variant = variant
 
-        if not variant.select_variant.get_active():
-            variant.select_variant.set_active(True)
+            if not variant.select_variant.get_active():
+                variant.select_variant.set_active(True)
+        finally:
+            self._updating_variant = False
 
         self.variant_preview.set_visible(variant.variant != "normal")
 
@@ -146,19 +151,18 @@ class KeyboardScreen(AxinstallScreen, Adw.Bin):
         is_sleex = os.environ.get("XDG_CURRENT_DESKTOP") == "Sleex"
 
         if is_sleex:
-            subprocess.run(
-                [
-                    "sudo",
-                    "sh",
-                    "-c",
-                    f"printf 'FONT=eurlatgr\\nKEYMAP={layout}\\n' > /etc/vconsole.conf",
-                ],
-                check=False,
-            )
             CommandUtils.run_command(
                 ["hyprctl", "keyword", "input:kb_layout", layout]
             )
-            CommandUtils.run_command(["hyprctl", "reload"])
+            CommandUtils.run_command(
+                [
+                    "sudo",
+                    "-n",
+                    "sh",
+                    "-c",
+                    f"printf 'FONT=eurlatgr\\nKEYMAP={layout}\\n' > /etc/vconsole.conf && hyprctl reload",
+                ]
+            )
 
 
     def present_dialog(self, *_):

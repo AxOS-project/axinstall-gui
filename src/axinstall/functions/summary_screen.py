@@ -185,31 +185,6 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             if self.window.misc_screen.nvidia_enabled
             else "Nvidia drivers disabled"
         )
-        self.artist_uk_label.set_title(
-            "Artist user kit enabled"
-            if self.window.misc_screen.artist_uk_enabled
-            else "Artist user kit disabled"
-        )
-        self.devel_uk_label.set_title(
-            "Developer user kit enabled"
-            if self.window.misc_screen.devel_uk_enabled
-            else "Developer user kit disabled"
-        )
-        self.hacker_uk_label.set_title(
-            "Hacker user kit enabled"
-            if self.window.misc_screen.hacker_uk_enabled
-            else "Hacker user kit disabled"
-        )
-        self.office_uk_label.set_title(
-            "Office user kit enabled"
-            if self.window.misc_screen.office_uk_enabled
-            else "Office user kit disabled"
-        )
-        self.entertainment_uk_label.set_title(
-            "Entertainment user kit enabled"
-            if self.window.misc_screen.entertainment_uk_enabled
-            else "Entertainment user kit disabled"
-        )
 
         partitions = []
         for i in range(0, len(self.window.available_partitions)):

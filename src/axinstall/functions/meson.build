@@ -15,5 +15,6 @@ axinstall_sources = [
     'finished_screen.py',
     'welcome_screen.py',
     'kernel_screen.py',
+    'network_screen.py',
 ]
 install_data(axinstall_sources, install_dir: functionsdir)

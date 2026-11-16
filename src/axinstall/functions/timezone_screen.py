@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from gi.repository import Gtk, Adw
+from gi.repository import Gtk, GLib, Adw
 from gettext import gettext as _
 import requests
 from axinstall.classes.axinstall_screen import AxinstallScreen
@@ -149,13 +149,15 @@ class TimezoneScreen(AxinstallScreen, Adw.Bin):
                 row = self.timezone_list.get_row_at_index(i)
                 if row.region == split[0] and row.location == split[1]:
                     self.chosen_timezone = row
-                    self.set_valid(True)
 
-                    self.update_from_row(row)
+                    def apply_guessed_tz(r=row):
+                        self.set_valid(True)
+                        self.update_from_row(r)
+                        self.status_page.set_description(
+                            f"Automatically detected {r.location}."
+                        )
 
-                    self.status_page.set_description(
-                        f"Automatically detected {row.location}."
-                    )
+                    GLib.idle_add(apply_guessed_tz)
 
                     print(f'Guessed timezone as "{self.guessed_timezone}"!')
                     print(f'{self.guessed_country} will be used for mirrors.')

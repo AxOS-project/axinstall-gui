@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkDialog" id="connect_dialog">
+    <property name="default-width">460</property>
+    <property name="default-height">260</property>
+    <property name="title" translatable="true">Connect to Wi-Fi</property>
+    <property name="hide-on-close">true</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="vexpand">true</property>
+        <property name="hexpand">true</property>
+
+        <child>
+          <object class="AdwPreferencesPage">
+            <child>
+              <object class="AdwPreferencesGroup" id="dialog_group">
+                <property
+                  name="title"
+                  translatable="true">Connect to Wi-Fi</property>
+                <property
+                  name="description"
+                  translatable="true">Enter the password for this network.</property>
+
+                <child>
+                  <object class="AdwEntryRow" id="ssid_entry">
+                    <property
+                      name="title"
+                      translatable="true">Network Name (SSID)</property>
+                    <property name="visible">false</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwEntryRow" id="identity_entry">
+                    <property
+                      name="title"
+                      translatable="true">Username / Identity</property>
+                    <property name="visible">false</property>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPasswordEntryRow" id="password_entry">
+                    <property
+                      name="title"
+                      translatable="true">Password</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkLabel" id="error_label">
+            <property name="visible">false</property>
+            <property name="wrap">true</property>
+            <property name="margin-start">24</property>
+            <property name="margin-end">24</property>
+            <property name="margin-bottom">8</property>
+            <style>
+              <class name="error"/>
+            </style>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">10</property>
+            <property name="halign">end</property>
+            <property name="margin-start">24</property>
+            <property name="margin-end">24</property>
+            <property name="margin-top">8</property>
+            <property name="margin-bottom">18</property>
+
+            <child>
+              <object class="GtkSpinner" id="dialog_spinner">
+                <property name="visible">false</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="cancel_button">
+                <property name="label" translatable="true">Cancel</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="connect_button">
+                <property name="label" translatable="true">Connect</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -10,7 +10,11 @@ class AxinstallScreen:
 
     def set_valid(self, valid: bool):
         self.valid = valid
-        self._set_valid(valid)
+        if hasattr(self, "window") and getattr(self.window, "current_page", None) is not None:
+            if self.window.current_page == self:
+                self._set_valid(valid)
+        else:
+            self._set_valid(valid)
 
     def on_show(self):
         pass

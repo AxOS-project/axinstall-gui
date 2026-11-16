@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import time
-import urllib.request
-from gi.repository import Gtk, GLib, Adw
+from gi.repository import Gtk, Adw
 from gettext import gettext as _
 from axinstall.classes.axinstall_screen import AxinstallScreen
 
@@ -29,7 +27,6 @@ class WelcomeScreen(AxinstallScreen, Adw.Bin):
     __gtype_name__ = "WelcomeScreen"
 
     next_button = Gtk.Template.Child()
-    no_internet = Gtk.Template.Child()
 
     def __init__(self, window, next_page, online, application, **kwargs):
         super().__init__(**kwargs)
@@ -40,25 +37,3 @@ class WelcomeScreen(AxinstallScreen, Adw.Bin):
         self.set_valid(True)
 
         self.next_button.connect("clicked", next_page)
-
-        self.do_check_internet = True
-
-    def check_internet(self):
-        while self.do_check_internet:
-            try:
-                urllib.request.urlopen("https://ping.archlinux.org", timeout=1)
-                self.online()
-                if not self.next_button.get_sensitive():
-                    GLib.idle_add(self.allow_continue, True)
-
-                self.do_check_internet = False
-                print("internet!")
-            except:
-                GLib.idle_add(self.allow_continue, False)
-                print("no internet!")
-            time.sleep(1)
-
-    def allow_continue(self, allow: bool):
-        self.set_valid(allow)
-        self.next_button.set_sensitive(allow)
-        self.no_internet.set_visible(not allow)

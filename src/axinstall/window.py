@@ -37,6 +37,7 @@ from axinstall.functions.summary_screen import SummaryScreen
 from axinstall.functions.install_screen import InstallScreen
 from axinstall.functions.finished_screen import FinishedScreen
 from axinstall.functions.welcome_screen import WelcomeScreen
+from axinstall.functions.network_screen import NetworkScreen
 from axinstall.classes.axinstall_screen import AxinstallScreen
 from axinstall.locales.locales_list import locations
 from axinstall.keymaps import keymaps
@@ -89,6 +90,9 @@ class AxinstallWindow(Gtk.ApplicationWindow):
         self.locale_screen = LocaleScreen(
             window=self, set_valid=self.page_valid, locations=locations, **kwargs
         )
+        self.network_screen = NetworkScreen(
+            window=self, set_valid=self.page_valid, **kwargs
+        )
         self.welcome_screen = WelcomeScreen(
             window=self,
             set_valid=self.page_valid,
@@ -96,11 +100,13 @@ class AxinstallWindow(Gtk.ApplicationWindow):
             online=self.online,
             **kwargs
         )
+        self.current_page = self.welcome_screen
 
         self.summary_screen = SummaryScreen(
             window=self, set_valid=self.page_valid, **kwargs
         )
         self.carousel.append(self.welcome_screen)
+        self.carousel.append(self.network_screen)
         self.carousel.append(self.keyboard_screen)
         self.carousel.append(self.timezone_screen)
         self.carousel.append(self.locale_screen)
@@ -208,7 +214,6 @@ class AxinstallWindow(Gtk.ApplicationWindow):
                 )
             )
         ### ---------
-        RunAsync(self.welcome_screen.check_internet)
 
     def online(self):
         if self.timezone_screen.guessed_timezone is None:
@@ -219,6 +224,7 @@ class AxinstallWindow(Gtk.ApplicationWindow):
         return self.carousel.get_nth_page(current_index + offset)
 
     def on_page_change(self, page: AxinstallScreen):
+        self.current_page = page
         self.next_button.set_sensitive(page.is_valid())
 
         disable_next = page not in [self.welcome_screen, self.finished_screen]
@@ -256,6 +262,7 @@ class AxinstallWindow(Gtk.ApplicationWindow):
         self.next_button.set_sensitive(valid)
 
     def show_page(self, _, page, *__):
+        self.current_page = page
         self.carousel.scroll_to(page, True)
 
     def confirm_quit(self, *_):

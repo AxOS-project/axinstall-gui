@@ -12,12 +12,15 @@
     <file>widgets/partition.ui</file>
     <file>widgets/locale.ui</file>
     <file>widgets/selected_locale.ui</file>
+    <file>widgets/wifi.ui</file>
     <file>pages/desktop_screen.ui</file>
     <file>pages/kernel_screen.ui</file>
     <file>pages/finished_screen.ui</file>
     <file>pages/install_screen.ui</file>
     <file>pages/keyboard/keyboard_screen.ui</file>
     <file>pages/keyboard/keyboard_dialog.ui</file>
+    <file>pages/network/network_screen.ui</file>
+    <file>pages/network/network_dialog.ui</file>
     <file>pages/misc_screen.ui</file>
     <file>pages/partition_screen.ui</file>
     <file>pages/summary_screen.ui</file>

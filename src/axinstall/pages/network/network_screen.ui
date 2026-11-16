@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="NetworkScreen" parent="AdwBin">
+    <property name="hexpand">true</property>
+    <property name="vexpand">true</property>
+    <child>
+      <object class="GtkBox">
+        <property name="vexpand">true</property>
+        <property name="hexpand">true</property>
+        <child>
+          <object class="AdwStatusPage" id="status_page">
+            <property name="hexpand">true</property>
+            <property name="vexpand">true</property>
+            <property
+              name="title"
+              translatable="true">Network Connection</property>
+            <property
+              name="description"
+              translatable="true">Connect to a Wi-Fi network or plug in an Ethernet cable to continue.</property>
+            <property name="css-classes">axinstall_compact</property>
+            <child>
+              <object class="AdwPreferencesPage">
+                <property name="margin-bottom">70</property>
+
+                <child>
+                  <object class="AdwPreferencesGroup" id="ethernet_group">
+                    <property
+                      name="title"
+                      translatable="true">Ethernet</property>
+                    <child>
+                      <object class="AdwActionRow" id="ethernet_row">
+                        <property
+                          name="title"
+                          translatable="true">Wired Connection</property>
+                        <property
+                          name="subtitle"
+                          translatable="true">Checking status...</property>
+                        <property name="use-markup">false</property>
+                        <property name="activatable">false</property>
+                        <property name="selectable">false</property>
+                        <child type="prefix">
+                          <object class="GtkImage" id="ethernet_icon">
+                            <property name="icon-name">network-wired-symbolic</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child type="suffix">
+                          <object class="GtkBox">
+                            <property name="spacing">8</property>
+                            <property name="valign">center</property>
+                            <child>
+                              <object class="GtkSpinner" id="ethernet_spinner">
+                                <property name="visible">false</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkImage" id="ethernet_status_icon">
+                                <property name="icon-name">object-select-symbolic</property>
+                                <property name="valign">center</property>
+                                <property name="visible">false</property>
+                                <style>
+                                  <class name="success"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwPreferencesGroup" id="wifi_group">
+                    <property
+                      name="title"
+                      translatable="true">Wi-Fi</property>
+                    <property name="header-suffix">
+                      <object class="GtkBox">
+                        <property name="spacing">8</property>
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="GtkSpinner" id="scan_spinner">
+                            <property name="visible">false</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="hidden_wifi_button">
+                            <property
+                              name="tooltip-text"
+                              translatable="true">Connect to a hidden Wi-Fi network</property>
+                            <property name="valign">center</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <property name="child">
+                              <object class="AdwButtonContent">
+                                <property name="icon-name">list-add-symbolic</property>
+                                <property name="label" translatable="yes">Hidden</property>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="refresh_button">
+                            <property name="icon-name">view-refresh-symbolic</property>
+                            <property
+                              name="tooltip-text"
+                              translatable="true">Scan for Wi-Fi networks</property>
+                            <property name="valign">center</property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="wifi_switch">
+                            <property name="valign">center</property>
+                            <property name="active">true</property>
+                            <property
+                              name="tooltip-text"
+                              translatable="true">Enable or disable Wi-Fi</property>
+                          </object>
+                        </child>
+                      </object>
+                    </property>
+
+                    <child>
+                      <object class="GtkListBox" id="wifi_list">
+                        <property name="selection-mode">none</property>
+                        <property name="hexpand">true</property>
+                        <style>
+                          <class name="boxed-list"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

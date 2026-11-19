@@ -37,11 +37,6 @@ class InstallPrefs:
         hostname,
         swap_value,
         nvidia_enabled,
-        artist_uk_enabled,
-        devel_uk_enabled,
-        hacker_uk_enabled,
-        office_uk_enabled,
-        entertainment_uk_enabled,
         desktop,
         kernel,
         partition_mode,
@@ -62,11 +57,6 @@ class InstallPrefs:
         self.hostname = hostname if len(hostname) != 0 else "axos"
         self.swap_value = swap_value
         self.nvidia_enabled = nvidia_enabled
-        self.artist_uk_enabled = artist_uk_enabled
-        self.devel_uk_enabled = devel_uk_enabled
-        self.hacker_uk_enabled = hacker_uk_enabled
-        self.office_uk_enabled = office_uk_enabled
-        self.entertainment_uk_enabled = entertainment_uk_enabled
         self.desktop = desktop
         self.kernel = kernel
         self.partition_mode = partition_mode
@@ -110,11 +100,6 @@ class InstallPrefs:
             "kernel": self.kernel.lower(),
             "extra_packages": [],
             "nvidia": self.nvidia_enabled,
-            "artist_uk": self.artist_uk_enabled,
-            "devel_uk": self.devel_uk_enabled,
-            "hacker_uk": self.hacker_uk_enabled,
-            "office_uk": self.office_uk_enabled,
-            "entertainment_uk": self.entertainment_uk_enabled,
             "flatpak": False,
         }
         return json.dumps(prefs)

@@ -34,11 +34,6 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     swap_value = 0
     move_to_summary = False
     nvidia_enabled = False
-    artist_uk_enabled = False
-    devel_uk_enabled = False
-    hacker_uk_enabled = False
-    office_uk_enabled = False
-    entertainment_uk_enabled = False
     swap_filled = True
 
     MIN_SWAP_MB = 256

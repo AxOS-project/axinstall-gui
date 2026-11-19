@@ -37,6 +37,7 @@ class InstallPrefs:
         hostname,
         swap_value,
         nvidia_enabled,
+        sb_enabled,
         desktop,
         kernel,
         partition_mode,
@@ -57,6 +58,7 @@ class InstallPrefs:
         self.hostname = hostname if len(hostname) != 0 else "axos"
         self.swap_value = swap_value
         self.nvidia_enabled = nvidia_enabled
+        self.sb_enabled = sb_enabled
         self.desktop = desktop
         self.kernel = kernel
         self.partition_mode = partition_mode
@@ -101,5 +103,6 @@ class InstallPrefs:
             "extra_packages": [],
             "nvidia": self.nvidia_enabled,
             "flatpak": False,
+            "secure_boot": self.sb_enabled,
         }
         return json.dumps(prefs)

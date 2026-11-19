@@ -29,12 +29,14 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     hostname_entry = Gtk.Template.Child()
     swap_entry = Gtk.Template.Child()
     nvidia_switch = Gtk.Template.Child()
+    sb_switch = Gtk.Template.Child()
 
     hostname = "axos"
     swap_value = 0
     move_to_summary = False
     nvidia_enabled = False
     swap_filled = True
+    sb_enabled = False
 
     MIN_SWAP_MB = 256
     MAX_SWAP_MB = 32768
@@ -78,6 +80,6 @@ class MiscScreen(AxinstallScreen, Adw.Bin):
     def on_complete(self, *_):
         self.hostname = self.hostname_entry.get_text()
         self.nvidia_enabled = self.nvidia_switch.get_state()
-
+        self.sb_enabled = self.sb_switch.get_state()
     def verify_continue(self):
         self.set_valid(self.swap_filled)

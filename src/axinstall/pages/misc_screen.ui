@@ -45,6 +45,20 @@
                           </object>
                         </child>
                         <child>
+                          <object class="AdwActionRow">
+                            <property name="activatable">false</property>
+                            <property name="selectable">false</property>
+                            <property name="title" translatable="true">Enable secure boot support</property>
+                            <property name="subtitle" translatable="true">Enable this if secure boot is enabled on your computer</property>
+                            <child>
+                              <object class="GtkSwitch" id="sb_switch">
+                                <property name="valign">center</property>
+                                <property name="active">false</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
                           <object class="AdwEntryRow" id="swap_entry">
                             <property name="title" translatable="true">Swap size (MiB). Default = 0</property>
                           </object>

@@ -182,6 +182,7 @@ class SummaryScreen(AxinstallScreen, Adw.Bin):
             hostname=self.window.misc_screen.hostname,
             swap_value=self.window.misc_screen.swap_value,
             nvidia_enabled=self.window.misc_screen.nvidia_enabled,
+            sb_enabled=self.window.misc_screen.sb_enabled,
             desktop=self.window.desktop_screen.chosen_desktop,
             kernel=self.window.kernel_screen.chosen_kernel,
             partition_mode=self.window.partition_mode,
